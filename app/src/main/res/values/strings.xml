@@ -2,4 +2,9 @@
     <string name="app_name">Sound Sync</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="create_group_screen_name">Criar um novo grupo</string>
+    <string name="insert">Insira:</string>
+    <string name="avançar">Avançar</string>
+    <string name="join_group_screen_name">Juntar a um grupo</string>
+    <string name="name_of_group_str">Nome do Grupo</string>
 </resources>

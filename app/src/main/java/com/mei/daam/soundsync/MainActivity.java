@@ -3,7 +3,11 @@ package com.mei.daam.soundsync;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -22,108 +26,31 @@ import com.google.api.services.youtube.model.SearchResult;
 import java.io.IOException;
 import java.util.List;
 
-public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaybackEventListener { //Implements Listeners here
+public class MainActivity extends AppCompatActivity{
 
-    private final static String YOUTUBEKEY = "INSERTKEYHERE";
-    private final static String SEARCHTYPE = "video";
-    private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
-    private YouTubePlayerView youTubePlayerView;
-    private YouTube youtube;
+    private FragmentNavigator fragmentNavigator;
+    private ImageView imageView;
+    protected final static String GROUP_NAME = "GROUP_NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        youTubePlayerView.initialize(YOUTUBEKEY, this);
-        new TestSearch().execute();
-    }
-
-    private class TestSearch extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
-                    public void initialize(HttpRequest request) throws IOException {
-                    }
-                }).build();
-
-                YouTube.Search.List search = youtube.search().list("id,snippet");
-                search.setKey(YOUTUBEKEY);
-                search.setQ("Benfica");
-                search.setType(SEARCHTYPE);
-                search.setFields("items(id/videoId,snippet/title,snippet/thumbnails/default/url),nextPageToken");
-                search.setMaxResults((long) 3);
-
-                // Call the API and print results.
-                SearchListResponse searchResponse = search.execute();
-                List<SearchResult> searchResultList = searchResponse.getItems();
-                if (searchResultList != null) {
-                    Log.d("TAG123", "first result " + searchResultList.get(0).getId().getVideoId());
-                    Log.d("TAG123", "e-tag " + searchResultList.get(0).getEtag());
-                    Log.d("TAG123", "snippet " + searchResultList.get(0).getSnippet());
-                }
-            } catch (GoogleJsonResponseException e) {
-                Log.d("TAG123", "There was a service error: " + e.getDetails().getCode() + " : "
-                        + e.getDetails().getMessage());
-            } catch (IOException e){
-                Log.d("TAG123", "There was an IO error: " + e.getCause() + " : " + e.getMessage());
-            } catch (Throwable t) {
-                Log.d("TAG123", "stack " + t.toString());
+        fragmentNavigator = new FragmentNavigator(getSupportFragmentManager(), R.id.fragment_placeholder);
+        imageView = (ImageView) findViewById(R.id.sound_sync_img);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentNavigator.navigateToCleaningBackStack(new MainScreenFragment(),true);
             }
-            return null;
+        });
+        if(savedInstanceState == null){
+        fragmentNavigator.navigateToWithoutBackSave(new MainScreenFragment(), true);
         }
     }
 
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
-        if (!restored) {
-            youTubePlayer.cueVideo("Regre_Cp2AI"); //https://www.youtube.com/watch?v=azxDhcKYku4
-        }
-    }
 
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-        if (youTubeInitializationResult.isUserRecoverableError()) {
-            youTubeInitializationResult.getErrorDialog(this, 1).show();
-        } else {
-            Toast.makeText(getApplicationContext(), DEFAULTERRORMESSAGE + youTubeInitializationResult.toString(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == 1) {
-            getYoutubePlayerProvider().initialize(YOUTUBEKEY, this); //Insert correct key
-        }
-    }
-
-    protected YouTubePlayer.Provider getYoutubePlayerProvider() {
-        return youTubePlayerView;
-    }
-
-    @Override
-    public void onPlaying() {
-
-    }
-
-    @Override
-    public void onPaused() {
-
-    }
-
-    @Override
-    public void onStopped() {
-
-    }
-
-    @Override
-    public void onBuffering(boolean b) {
-
-    }
-
-    @Override
-    public void onSeekTo(int i) {
-
+    public FragmentNavigator getFragmentNavigator() {
+        return fragmentNavigator;
     }
 }

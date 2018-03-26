@@ -31,8 +31,7 @@ dependencies {
     compile('com.google.apis:google-api-services-youtube:v3-rev193-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
+
+
 }
