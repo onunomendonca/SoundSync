@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -31,6 +35,9 @@ dependencies {
     compile('com.google.apis:google-api-services-youtube:v3-rev193-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    compile 'io.reactivex.rxjava2:rxjava:2.1.7'
+    compile 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.0.0'
+    compile 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
 

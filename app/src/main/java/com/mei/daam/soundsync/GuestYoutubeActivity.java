@@ -38,9 +38,6 @@ public class GuestYoutubeActivity extends YouTubeBaseActivity implements YouTube
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guest_youtube);
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.GROUP_NAME);
-        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         youTubePlayerView.initialize(YOUTUBEKEY, this);
         new TestSearch().execute();

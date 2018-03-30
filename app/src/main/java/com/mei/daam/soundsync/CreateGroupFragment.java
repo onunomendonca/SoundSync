@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,6 +41,7 @@ public class CreateGroupFragment extends Fragment {
                 else{
                     Intent intent = new Intent(getContext(), HostYoutubeActivity.class);
                     intent.putExtra(MainActivity.GROUP_NAME,groupName);
+                    intent.putExtra(MainActivity.IS_HOST, true);
                     startActivity(intent);
                 }
             }
