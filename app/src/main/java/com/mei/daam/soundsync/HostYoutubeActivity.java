@@ -35,13 +35,15 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
+import static io.reactivex.subjects.PublishSubject.*;
+
 /**
  * Created by D01 on 26/03/2018.
  */
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaybackEventListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "AIzaSyBUA7Dxhri4ZXx-zETmf-RGheTu_YvC01k";
+    private final static String YOUTUBEKEY ="INSERT YOUR KEY HERE";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -81,8 +83,8 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, test);
         listView.setAdapter(adapter);
 
-        searchResultSubject = PublishSubject.create();
-        musicSearchSubject = PublishSubject.create();
+        searchResultSubject = create();
+        musicSearchSubject = create();
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         //noVideoImage = (ImageView) findViewById(R.id.no_video_img);
         addButton = (Button) findViewById(R.id.add_button_host);

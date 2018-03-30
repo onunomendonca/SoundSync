@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelinevertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelinehorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
     <ImageView
         android:id="@+id/sound_sync_img"
         android:layout_width="match_parent"
@@ -39,9 +53,11 @@
     <ListView
         android:id="@+id/list_view_host"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
-        app:layout_constraintBottom_toTopOf="@+id/add_button_host"
+        android:layout_height="185dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal" />
 </android.support.constraint.ConstraintLayout>
