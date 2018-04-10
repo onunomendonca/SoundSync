@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity{
     private FragmentNavigator fragmentNavigator;
     private ImageView imageView;
     protected final static String GROUP_NAME = "GROUP_NAME";
-    protected final static String IS_HOST = "IS_HOST";
+    protected Group g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity{
         if(savedInstanceState == null){
         fragmentNavigator.navigateToWithoutBackSave(new MainScreenFragment(), true);
         }
+        new FireBaseHandler();
     }
 
 

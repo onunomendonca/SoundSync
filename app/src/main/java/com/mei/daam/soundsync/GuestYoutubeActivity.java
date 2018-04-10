@@ -63,11 +63,6 @@ public class GuestYoutubeActivity extends YouTubeBaseActivity implements YouTube
                 // Call the API and print results.
                 SearchListResponse searchResponse = search.execute();
                 List<SearchResult> searchResultList = searchResponse.getItems();
-                if (searchResultList != null) {
-                    Log.d("TAG123", "first result " + searchResultList.get(0).getId().getVideoId());
-                    Log.d("TAG123", "e-tag " + searchResultList.get(0).getEtag());
-                    Log.d("TAG123", "snippet " + searchResultList.get(0).getSnippet());
-                }
             } catch (GoogleJsonResponseException e) {
                 Log.d("TAG123", "There was a service error: " + e.getDetails().getCode() + " : "
                         + e.getDetails().getMessage());

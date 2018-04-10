@@ -42,7 +42,6 @@ public class JoinGroupFragment extends Fragment {
                 else{
                     Intent intent = new Intent(getContext(), GuestYoutubeActivity.class);
                     intent.putExtra(MainActivity.GROUP_NAME, groupName);
-                    intent.putExtra(MainActivity.IS_HOST, false);
                     startActivity(intent);
                 }
 

@@ -11,10 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-/**
- * Created by D01 on 26/03/2018.
- */
-
 public class CreateGroupFragment extends Fragment {
 
     private Button nextButton;
@@ -41,10 +37,12 @@ public class CreateGroupFragment extends Fragment {
                 else{
                     Intent intent = new Intent(getContext(), HostYoutubeActivity.class);
                     intent.putExtra(MainActivity.GROUP_NAME,groupName);
-                    intent.putExtra(MainActivity.IS_HOST, true);
                     startActivity(intent);
                 }
             }
         });
     }
+
+
+
 }
