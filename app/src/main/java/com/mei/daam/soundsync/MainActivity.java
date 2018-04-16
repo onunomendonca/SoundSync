@@ -10,7 +10,6 @@ public class MainActivity extends AppCompatActivity{
     private FragmentNavigator fragmentNavigator;
     private ImageView imageView;
     protected final static String GROUP_NAME = "GROUP_NAME";
-    protected Group g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +24,8 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         if(savedInstanceState == null){
-        fragmentNavigator.navigateToWithoutBackSave(new MainScreenFragment(), true);
+            fragmentNavigator.navigateToWithoutBackSave(new MainScreenFragment(), true);
         }
-        new FireBaseHandler();
     }
 
 
@@ -35,3 +33,4 @@ public class MainActivity extends AppCompatActivity{
         return fragmentNavigator;
     }
 }
+

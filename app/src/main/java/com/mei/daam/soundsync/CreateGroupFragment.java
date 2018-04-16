@@ -30,14 +30,21 @@ public class CreateGroupFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean grupoCriado;
                 String groupName = editText.getText().toString();
                 if(groupName.equals("") || groupName == null){
-                    Toast.makeText(getContext(),"Invalid name",Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Intent intent = new Intent(getContext(), HostYoutubeActivity.class);
-                    intent.putExtra(MainActivity.GROUP_NAME,groupName);
-                    startActivity(intent);
+                    Toast.makeText(getContext(),"Invalid name. Choose a new name!",Toast.LENGTH_LONG).show();
+                }else {
+                    Group g = new Group(groupName);
+                    FireBaseHandler fb = new FireBaseHandler(g);
+                    if(fb.writeGroupOnDB() == false) {
+                        Toast.makeText(getContext(), "Group already exists! Choose a new name! ", Toast.LENGTH_LONG).show();
+                    }else {
+                        Intent intent = new Intent(getContext(), HostYoutubeActivity.class);
+                        intent.putExtra(MainActivity.GROUP_NAME, groupName);
+                        startActivity(intent);
+                    }
+
                 }
             }
         });
