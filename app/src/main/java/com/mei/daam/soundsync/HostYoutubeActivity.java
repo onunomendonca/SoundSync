@@ -2,6 +2,7 @@ package com.mei.daam.soundsync;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.SearchResultSnippet;
+import com.google.api.services.youtube.model.Thumbnail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +46,7 @@ import static io.reactivex.subjects.PublishSubject.*;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaybackEventListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY ="INSERT YOUR KEY HERE";
+    private final static String YOUTUBEKEY ="";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -56,6 +59,11 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
     private YouTube youtube;
     //private ImageView noVideoImage;
     private Button addButton;
+    private List<String> test = new ArrayList<>();
+    //por numa classe talvez
+    private List<String>  namesSongs=new ArrayList<>();
+    private List<String> timeSong=new ArrayList<>();
+    private List <Integer> images=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,24 +72,26 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.GROUP_NAME);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+        //remove
+        images.add(R.drawable.soundsync);
+        timeSong.add("0:24");
+        namesSongs.add("Song");
         listView = (ListView) findViewById(R.id.list_view_host);
+        ListAdapter listAdapter= new CustomAdapter(HostYoutubeActivity.this, namesSongs, timeSong, images);
+        listView.setAdapter(listAdapter);
+        // test.add("This");
+       // test.add("is");
+       // test.add("just");
+        //test.add("a test");
+       // test.add("scroll");
+       // test.add("scroll");
+       // test.add("scroll");
+        //test.add("scroll");
+        //test.add("scroll");
+        //test.add("scroll");
+        //test.add("scroll");
 
-        List<String> test = new ArrayList<>();
-        test.add("This");
-        test.add("is");
-        test.add("just");
-        test.add("a test");
-        test.add("scroll");
-        test.add("scroll");
-        test.add("scroll");
-        test.add("scroll");
-        test.add("scroll");
-        test.add("scroll");
-        test.add("scroll");
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, test);
-        listView.setAdapter(adapter);
 
         searchResultSubject = create();
         musicSearchSubject = create();
@@ -146,7 +156,14 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                     String videoId = result.getId().getVideoId();
                     String eTag = result.getEtag();
                     SearchResultSnippet searchResultSnippet = result.getSnippet();
+                    String name=searchResultSnippet.getTitle();
+
+                    namesSongs.add(name);
+                    timeSong.add(name);
+                    images.add(R.drawable.soundsync);
+
                     m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
+                    //test.add(name);
                     Log.d("TAG123", "first result " + videoId);
                     Log.d("TAG123", "e-tag " + eTag);
                     Log.d("TAG123", "snippet " + searchResultSnippet);
