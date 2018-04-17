@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1039875235588",
+    "firebase_url": "https://soundsync-9b21d.firebaseio.com",
+    "project_id": "soundsync-9b21d",
+    "storage_bucket": "soundsync-9b21d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039875235588:android:466d96f3e9fc0f0b",
+        "android_client_info": {
+          "package_name": "com.example.nunomendonca.soundsync"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039875235588-al64b41hh5c9o3lgl1a047gg1vtbfu8l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nunomendonca.soundsync",
+            "certificate_hash": "e24d826783695bb52b22f772d615b5d2aaf64b03"
+          }
+        },
+        {
+          "client_id": "1039875235588-svikqnfbiv3ffvq53avrhnmpac7cnehb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALxvTmK0MIeaEyVzcguqcAXHZKW0qn1dk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039875235588-svikqnfbiv3ffvq53avrhnmpac7cnehb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
