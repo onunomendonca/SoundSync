@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,14 +16,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+
+
+        app:layout_constraintGuide_percent="0.50" />
 
     <ImageView
         android:id="@+id/sound_sync_img"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/soundsync" />
@@ -41,32 +42,25 @@
     <ListView
         android:id="@+id/list_view_host"
         android:layout_width="match_parent"
-        android:layout_height="181dp"
+        android:layout_height="200dp"
         app:layout_constraintBottom_toTopOf="@+id/add_button_host"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="176dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal"
+        app:layout_constraintVertical_bias="1.0" />
 
-        <com.google.android.youtube.player.YouTubePlayerView
-            android:id="@+id/youtube_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toTopOf="@+id/list_view_host"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sound_sync_img"
-            app:layout_constraintVertical_bias="1.0"
-            tools:ignore="MissingConstraints" />
-    </LinearLayout>
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youtube_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal"
+        app:layout_constraintEnd_toEndOf="@id/list_view_host"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/list_view_host"
+        app:layout_constraintTop_toBottomOf="@+id/sound_sync_img"
+        app:layout_constraintVertical_bias="0.0"/>
+
+
 </android.support.constraint.ConstraintLayout>
