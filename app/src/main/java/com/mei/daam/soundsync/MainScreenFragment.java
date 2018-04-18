@@ -1,8 +1,11 @@
 package com.mei.daam.soundsync;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,13 @@ public class MainScreenFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //For the animated Background
+        MainActivity.myLayout = (ConstraintLayout) view.findViewById(R.id.myLayout);
+        MainActivity.animationDrawable = (AnimationDrawable) MainActivity.myLayout.getBackground();
+        MainActivity.animationDrawable.setEnterFadeDuration(4500);
+        MainActivity.animationDrawable.setExitFadeDuration(4500);
+        MainActivity.animationDrawable.start();
+
         fragmentNavigator = ((MainActivity) getActivity()).getFragmentNavigator();
         novoGrupo = (Button) view.findViewById(R.id.novo_grupo_btn);
         juntarGrupo = (Button) view.findViewById(R.id.juntar_grupo_btn);

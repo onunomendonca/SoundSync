@@ -41,8 +41,6 @@ dependencies {
     compile 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.0.0'
     compile 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
-
-
 }
 
 

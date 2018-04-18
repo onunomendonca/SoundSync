@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/my_bg_anim"
+    android:id="@+id/myLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.constraint.Guideline
@@ -28,6 +30,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Novo grupo"
+        android:textColor="#ffffff"
+        android:background="@drawable/custom_white_button"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,6 +47,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Juntar grupo"
+        android:textColor="#ffffff"
+        android:background="@drawable/custom_white_button"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

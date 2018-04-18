@@ -1,8 +1,10 @@
 package com.mei.daam.soundsync;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ public class CreateGroupFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         editText = (EditText) view.findViewById(R.id.name_of_group);
         nextButton = (Button) view.findViewById(R.id.next_btn);
         nextButton.setOnClickListener(new View.OnClickListener() {
