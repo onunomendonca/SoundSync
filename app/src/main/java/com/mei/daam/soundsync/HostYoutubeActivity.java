@@ -63,7 +63,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
     //por numa classe talvez
     private List<String>  namesSongs=new ArrayList<>();
     private List<String> timeSong=new ArrayList<>();
-    private List <Integer> images=new ArrayList<>();
+    private List <String> images=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +73,10 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         String message = intent.getStringExtra(MainActivity.GROUP_NAME);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
-        //remove
-        images.add(R.drawable.soundsync);
-        timeSong.add("0:24");
         namesSongs.add("Song");
+        timeSong.add("2:30");
+        images.add("http://i.imgur.com/DvpvklR.png");
+
         listView = (ListView) findViewById(R.id.list_view_host);
         ListAdapter listAdapter= new CustomAdapter(HostYoutubeActivity.this, namesSongs, timeSong, images);
         listView.setAdapter(listAdapter);
@@ -160,7 +160,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
 
                     namesSongs.add(name);
                     timeSong.add(name);
-                    images.add(R.drawable.soundsync);
+                    images.add("https://img.youtube.com/vi/"+videoId+"/0.jpg");
 
                     m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
                     //test.add(name);
