@@ -5,13 +5,13 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/appIconIV"
+        android:id="@+id/videoThumbnail"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/soundsync" />
 
     <TextView
-        android:id="@+id/aNametxt"
+        android:id="@+id/videoName"
         android:text="Song Name"
         android:textSize="14sp"
         android:layout_marginTop="8dp"
@@ -20,22 +20,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/appIconIV"
-        android:layout_toEndOf="@+id/appIconIV"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp" />
+        android:layout_toRightOf="@+id/videoThumbnail"
+        android:layout_toEndOf="@+id/videoThumbnail"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp" />
 
     <TextView
-        android:id="@+id/aVersiontxt"
+        android:id="@+id/videoDuration"
         android:text="Length"
         android:textSize="12sp"
         android:maxLines="1"
         android:textColor="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/aNametxt"
-        android:layout_alignLeft="@+id/aNametxt"
-        android:layout_alignStart="@+id/aNametxt" />
+        android:layout_below="@+id/videoName"
+        android:layout_alignLeft="@+id/videoName"
+        android:layout_alignStart="@+id/videoName" />
 
 
 

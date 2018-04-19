@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,7 +43,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaybackEventListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "AIzaSyA1o3q2exa3Q7d1nZE1gHftkHwXlK1aM8Y";
+    private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -58,10 +57,8 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
     //private ImageView noVideoImage;
     private Button addButton;
     private List<String> test = new ArrayList<>();
+    private CustomAdapter listAdapter;
     //por numa classe talvez
-    private List<String>  namesSongs=new ArrayList<>();
-    private List<String> timeSong=new ArrayList<>();
-    private List <String> images=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +74,8 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         String message = intent.getStringExtra(MainActivity.GROUP_NAME);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
-        namesSongs.add("Song");
-        timeSong.add("2:30");
-        images.add("http://i.imgur.com/DvpvklR.png");
-
         listView = (ListView) findViewById(R.id.list_view_host);
-        ListAdapter listAdapter= new CustomAdapter(HostYoutubeActivity.this, namesSongs, timeSong, images);
+        listAdapter= new CustomAdapter(HostYoutubeActivity.this);
         listView.setAdapter(listAdapter);
         // test.add("This");
        // test.add("is");
@@ -161,10 +154,16 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                     String eTag = result.getEtag();
                     SearchResultSnippet searchResultSnippet = result.getSnippet();
                     String name=searchResultSnippet.getTitle();
-
-                    namesSongs.add(name);
-                    timeSong.add(name);
-                    images.add("https://img.youtube.com/vi/"+videoId+"/0.jpg");
+                    //getVideoDetails
+                    /*YouTube.Videos.List videoRequest = youtube.videos().list("snippet, recordingDetails").setId(videoId);
+                    VideoListResponse video = videoRequest.execute();
+                    List<Video> videos = video.getItems();
+                    String duration = videos.get(0).getContentDetails().getDuration();
+*/
+                    listAdapter.addSongName(name);
+                    listAdapter.addDuration(name);
+                    listAdapter.addThumbnail("https://img.youtube.com/vi/"+videoId+"/0.jpg");
+                    listAdapter.addVideoId(videoId);
 
                     m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
                     //test.add(name);

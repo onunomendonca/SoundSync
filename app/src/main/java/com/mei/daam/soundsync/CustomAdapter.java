@@ -1,9 +1,6 @@
 package com.mei.daam.soundsync;
 
 import android.content.Context;
-import android.media.Image;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,21 +21,23 @@ public class CustomAdapter extends BaseAdapter {
 
 
         Context context;
-        private List<String> values=new ArrayList<String>();
-        private  List<String> numbers=new ArrayList<String>();
-        private  List<String> images=new ArrayList<>();
+        private  List<String> videoNames;
+        private  List<String> videoDurations;
+        private  List<String> videoThumbnails;
+        private  List<String> videoIds;
 
-        public CustomAdapter(Context context, List<String> values, List<String> numbers, List<String> images){
+        public CustomAdapter(Context context){
             //super(context, R.layout.single_list_app_item, utilsArrayList);
             this.context = context;
-            this.values = values;
-            this.numbers = numbers;
-            this.images = images;
+            this.videoNames = new ArrayList<>();
+            this.videoDurations = new ArrayList<>();
+            this.videoThumbnails = new ArrayList<>();
+            this.videoIds = new ArrayList<>();
         }
 
         @Override
         public int getCount() {
-            return values.size();
+            return videoNames.size();
         }
 
         @Override
@@ -57,16 +56,31 @@ public class CustomAdapter extends BaseAdapter {
 
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.custom_adapter,null);
-            TextView txtName = (TextView) convertView.findViewById(R.id.aNametxt);
-            TextView txtVersion = (TextView) convertView.findViewById(R.id.aVersiontxt);
-            ImageView icon = (ImageView) convertView.findViewById(R.id.appIconIV);
-            txtName.setText(values.get(position));
-            txtVersion.setText(numbers.get(position));
-            Picasso.get().load(images.get(position)).into(icon);
+            TextView videoName = (TextView) convertView.findViewById(R.id.videoName);
+            TextView videoDuration = (TextView) convertView.findViewById(R.id.videoDuration);
+            ImageView thumbnail = (ImageView) convertView.findViewById(R.id.videoThumbnail);
+            videoName.setText(videoNames.get(position));
+            videoDuration.setText(videoDurations.get(position));
+            Picasso.get().load(videoThumbnails.get(position)).into(thumbnail);
 
             return convertView;
         }
 
 
+    public void addSongName(String name) {
+            videoNames.add(name);
     }
+
+    public void addDuration(String name) {
+            videoDurations.add(name);
+    }
+
+    public void addThumbnail(String s) {
+            videoThumbnails.add(s);
+    }
+
+    public void addVideoId(String videoId) {
+            videoIds.add(videoId);
+    }
+}
 
