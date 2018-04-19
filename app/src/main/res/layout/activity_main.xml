@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.Transparent"
-    android:id="@+id/myLayout"
     tools:context="com.mei.daam.soundsync.MainActivity">
 
 
@@ -13,8 +12,7 @@
         android:id="@+id/sound_sync_img"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:contentDescription="TODO"
-        android:src="@drawable/soundsync_white_no_bg"
+        android:src="@drawable/soundsync"
         android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -28,6 +28,7 @@
         android:text="@string/join_group_screen_name"
         android:textAllCaps="true"
         android:textSize="25sp"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,6 +42,7 @@
         android:text="@string/insert"
         android:textAllCaps="true"
         android:textSize="20sp"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/name_of_group_join"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -52,19 +54,23 @@
         android:ems="13"
         android:inputType="textPersonName"
         android:hint="@string/name_of_group_str"
+        android:textColor="#ffffff"
+        android:textColorHint="#d3d3d3"
+        android:backgroundTint="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/next_join_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="60dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/ovalbutton"
+        android:background="@drawable/oval_white_button"
         android:text="@string/join"
         android:textSize="25sp"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

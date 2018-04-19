@@ -2,14 +2,13 @@ package com.mei.daam.soundsync;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -29,7 +28,6 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.SearchResultSnippet;
-import com.google.api.services.youtube.model.Thumbnail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +36,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-import static io.reactivex.subjects.PublishSubject.*;
+import static io.reactivex.subjects.PublishSubject.create;
 
 /**
  * Created by D01 on 26/03/2018.
@@ -46,7 +44,7 @@ import static io.reactivex.subjects.PublishSubject.*;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaybackEventListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY ="";
+    private final static String YOUTUBEKEY = "AIzaSyA1o3q2exa3Q7d1nZE1gHftkHwXlK1aM8Y";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -69,6 +67,12 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.host_youtube);
+
+        getWindow().setBackgroundDrawableResource(R.drawable.first_layer);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(R.drawable.first_layer);
+        }
+
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.GROUP_NAME);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();

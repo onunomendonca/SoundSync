@@ -2,6 +2,7 @@ package com.mei.daam.soundsync;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,6 +39,12 @@ public class GuestYoutubeActivity extends YouTubeBaseActivity implements YouTube
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guest_youtube);
+
+        getWindow().setBackgroundDrawableResource(R.drawable.first_layer);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(R.drawable.first_layer);
+        }
+
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         youTubePlayerView.initialize(YOUTUBEKEY, this);
         new TestSearch().execute();

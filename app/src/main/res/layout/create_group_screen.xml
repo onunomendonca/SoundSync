@@ -2,6 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@drawable/first_layer"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.constraint.Guideline
@@ -28,6 +30,7 @@
         android:text="@string/create_group_screen_name"
         android:textAllCaps="true"
         android:textSize="25sp"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,6 +44,7 @@
         android:text="@string/insert"
         android:textAllCaps="true"
         android:textSize="20sp"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/name_of_group"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -51,20 +55,24 @@
         android:layout_marginStart="52dp"
         android:ems="13"
         android:inputType="textPersonName"
+        android:textColor="#ffffff"
         android:hint="@string/name_of_group_str"
+        android:textColorHint="#d3d3d3"
+        android:backgroundTint="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/next_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="60dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/ovalbutton"
+        android:background="@drawable/oval_white_button"
         android:text="@string/create"
         android:textSize="25sp"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

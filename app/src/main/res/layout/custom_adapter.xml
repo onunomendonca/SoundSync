@@ -13,9 +13,10 @@
     <TextView
         android:id="@+id/aNametxt"
         android:text="Song Name"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_marginTop="8dp"
         android:maxLines="1"
+        android:textColor="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -27,8 +28,9 @@
     <TextView
         android:id="@+id/aVersiontxt"
         android:text="Length"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:maxLines="1"
+        android:textColor="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/aNametxt"
