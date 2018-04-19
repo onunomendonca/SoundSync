@@ -11,6 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +26,9 @@ public class CustomAdapter extends BaseAdapter {
         Context context;
         private List<String> values=new ArrayList<String>();
         private  List<String> numbers=new ArrayList<String>();
-        private  List<Integer> images=new ArrayList<Integer>();
+        private  List<String> images=new ArrayList<>();
 
-        public CustomAdapter(Context context, List<String> values, List<String> numbers, List<Integer> images){
+        public CustomAdapter(Context context, List<String> values, List<String> numbers, List<String> images){
             //super(context, R.layout.single_list_app_item, utilsArrayList);
             this.context = context;
             this.values = values;
@@ -60,7 +62,7 @@ public class CustomAdapter extends BaseAdapter {
             ImageView icon = (ImageView) convertView.findViewById(R.id.appIconIV);
             txtName.setText(values.get(position));
             txtVersion.setText(numbers.get(position));
-            icon.setImageResource(images.get(position));
+            Picasso.get().load(images.get(position)).into(icon);
 
             return convertView;
         }
