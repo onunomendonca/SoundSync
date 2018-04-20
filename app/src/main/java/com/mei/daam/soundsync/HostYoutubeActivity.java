@@ -30,7 +30,6 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.SearchResultSnippet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -42,7 +41,7 @@ import static io.reactivex.subjects.PublishSubject.create;
  * Created by D01 on 26/03/2018.
  */
 
-public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaybackEventListener { //Implements Listeners here
+public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener { //Implements Listeners here
     //TODO
     private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
@@ -207,7 +206,42 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
             m_youTubePlayer = youTubePlayer;
             currentVideoId=searchResultObject.getVideoId();
             m_youTubePlayer.loadVideo(searchResultObject.getVideoId());
+            m_youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                @Override
+                public void onLoading() {
 
+                }
+
+                @Override
+                public void onLoaded(String s) {
+
+                }
+
+                @Override
+                public void onAdStarted() {
+
+                }
+
+                @Override
+                public void onVideoStarted() {
+
+                }
+
+                @Override
+                public void onVideoEnded() {
+                    Log.d("TAG123","STOPPED");
+                    int nextPosition=listAdapter.getPositionVideoId(currentVideoId)+1;
+                    if(nextPosition<=listAdapter.getCount()-1) {
+                        currentVideoId=listAdapter.getVideoId(nextPosition);
+                        m_youTubePlayer.loadVideo(currentVideoId);
+                    }
+                }
+
+                @Override
+                public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                }
+            });
         }
     }
 
@@ -228,36 +262,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
 
     protected YouTubePlayer.Provider getYoutubePlayerProvider() {
         return youTubePlayerView;
-    }
-
-    @Override
-    public void onPlaying() {
-
-    }
-
-    @Override
-    public void onPaused() {
-
-    }
-
-    @Override
-    public void onStopped() {
-        Toast.makeText(this, "STOPPED", Toast.LENGTH_LONG).show();
-        int nextPosition=listAdapter.getPositionVideoId(currentVideoId)+1;
-        if(nextPosition<=listAdapter.getCount()-1) {
-            currentVideoId=listAdapter.getVideoId(nextPosition);
-            m_youTubePlayer.loadVideo(listAdapter.getVideoId(nextPosition));
-        }
-    }
-
-    @Override
-    public void onBuffering(boolean b) {
-
-    }
-
-    @Override
-    public void onSeekTo(int i) {
-
     }
 
     public Observable<String> musicSearchSubjectResult(){
@@ -284,17 +288,17 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         if(searchResultObject == null){
             Toast.makeText(this, "No Result found", Toast.LENGTH_LONG);
         } else{
-            initializeYoutube();
+            initializeYoutube(searchResultObject.getVideoId());
         }
     }
 
-    private void initializeYoutube(){
+    private void initializeYoutube(String videoId){
         if(m_youTubePlayer == null) {
             youTubePlayerView.initialize(YOUTUBEKEY, this);
         }
         else{
-            currentVideoId=searchResultObject.getVideoId();
-            m_youTubePlayer.loadVideo(searchResultObject.getVideoId());
+            currentVideoId=videoId;
+            m_youTubePlayer.loadVideo(videoId);
 
         }
     }
