@@ -82,5 +82,9 @@ public class CustomAdapter extends BaseAdapter {
     public void addVideoId(String videoId) {
             videoIds.add(videoId);
     }
+
+    public String getVideoId(int position){
+            return videoIds.get(position);
+    }
 }
 

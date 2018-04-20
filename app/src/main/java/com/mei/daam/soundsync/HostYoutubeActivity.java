@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -77,6 +78,14 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         listView = (ListView) findViewById(R.id.list_view_host);
         listAdapter= new CustomAdapter(HostYoutubeActivity.this);
         listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
+            {
+                m_youTubePlayer.loadVideo(listAdapter.getVideoId(position));
+            }
+        });
         // test.add("This");
        // test.add("is");
        // test.add("just");
