@@ -55,11 +55,10 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
     private ListView listView;
     private SearchResultObject searchResultObject;
     private YouTube youtube;
-    //private ImageView noVideoImage;
     private Button addButton;
-    private List<String> test = new ArrayList<>();
     private CustomAdapter listAdapter;
-    //por numa classe talvez
+    private String currentVideoId="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +82,9 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
             {
+                currentVideoId=listAdapter.getVideoId(position);
                 m_youTubePlayer.loadVideo(listAdapter.getVideoId(position));
+
             }
         });
         // test.add("This");
@@ -204,7 +205,9 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
           //  noVideoImage.setVisibility(View.GONE);
             youTubePlayerView.setVisibility(View.VISIBLE);
             m_youTubePlayer = youTubePlayer;
+            currentVideoId=searchResultObject.getVideoId();
             m_youTubePlayer.loadVideo(searchResultObject.getVideoId());
+
         }
     }
 
@@ -239,7 +242,12 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
 
     @Override
     public void onStopped() {
-
+        Toast.makeText(this, "STOPPED", Toast.LENGTH_LONG).show();
+        int nextPosition=listAdapter.getPositionVideoId(currentVideoId)+1;
+        if(nextPosition<=listAdapter.getCount()-1) {
+            currentVideoId=listAdapter.getVideoId(nextPosition);
+            m_youTubePlayer.loadVideo(listAdapter.getVideoId(nextPosition));
+        }
     }
 
     @Override
@@ -285,7 +293,9 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
             youTubePlayerView.initialize(YOUTUBEKEY, this);
         }
         else{
-        m_youTubePlayer.loadVideo(searchResultObject.getVideoId());
+            currentVideoId=searchResultObject.getVideoId();
+            m_youTubePlayer.loadVideo(searchResultObject.getVideoId());
+
         }
     }
 }

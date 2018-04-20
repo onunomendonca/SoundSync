@@ -86,5 +86,13 @@ public class CustomAdapter extends BaseAdapter {
     public String getVideoId(int position){
             return videoIds.get(position);
     }
+
+    public int getPositionVideoId(String videoId){
+        for(int i=0;i<videoIds.size();i++){
+            if(videoIds.get(i).equals(videoId))
+                return i;
+        }
+        return 0;
+    }
 }
 
