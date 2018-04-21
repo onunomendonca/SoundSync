@@ -21,23 +21,17 @@ public class CustomAdapter extends BaseAdapter {
 
 
         Context context;
-        private  List<String> videoNames;
-        private  List<String> videoDurations;
-        private  List<String> videoThumbnails;
-        private  List<String> videoIds;
+        private List<Music> musicList;
 
         public CustomAdapter(Context context){
             //super(context, R.layout.single_list_app_item, utilsArrayList);
             this.context = context;
-            this.videoNames = new ArrayList<>();
-            this.videoDurations = new ArrayList<>();
-            this.videoThumbnails = new ArrayList<>();
-            this.videoIds = new ArrayList<>();
+            this.musicList = new ArrayList<>();
         }
 
         @Override
         public int getCount() {
-            return videoNames.size();
+            return musicList.size();
         }
 
         @Override
@@ -59,37 +53,33 @@ public class CustomAdapter extends BaseAdapter {
             TextView videoName = (TextView) convertView.findViewById(R.id.videoName);
             TextView videoDuration = (TextView) convertView.findViewById(R.id.videoDuration);
             ImageView thumbnail = (ImageView) convertView.findViewById(R.id.videoThumbnail);
-            videoName.setText(videoNames.get(position));
-            videoDuration.setText(videoDurations.get(position));
-            Picasso.get().load(videoThumbnails.get(position)).into(thumbnail);
+            Music selectedMusic = musicList.get(position);
+            videoName.setText(selectedMusic.getName());
+            videoDuration.setText(selectedMusic.getDuration());
+            Picasso.get().load(selectedMusic.getThumbnail()).into(thumbnail);
 
             return convertView;
         }
-
-
-    public void addSongName(String name) {
-            videoNames.add(name);
-    }
-
-    public void addDuration(String name) {
-            videoDurations.add(name);
-    }
-
-    public void addThumbnail(String s) {
-            videoThumbnails.add(s);
-    }
-
-    public void addVideoId(String videoId) {
-            videoIds.add(videoId);
+    public void addMusic(Music music){
+        musicList.add(music);
     }
 
     public String getVideoId(int position){
-            return videoIds.get(position);
+        return musicList.get(position).getVideoId();
+    }
+
+    public boolean hasVideoId(String videoId){
+        for(Music music : musicList){
+            if(music.getVideoId().equals(videoId)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getPositionVideoId(String videoId){
-        for(int i=0;i<videoIds.size();i++){
-            if(videoIds.get(i).equals(videoId))
+        for(int i=0;i<musicList.size();i++){
+            if(musicList.get(i).getVideoId().equals(videoId))
                 return i;
         }
         return 0;

@@ -43,7 +43,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "";
+    private final static String YOUTUBEKEY = "AIzaSyAXxFYaRA0v0YGRwhaVX45E-pnWMzOmn44";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -168,13 +168,13 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                     VideoListResponse video = videoRequest.execute();
                     List<Video> videos = video.getItems();
                     String duration = videos.get(0).getContentDetails().getDuration();
-*/
-                    listAdapter.addSongName(name);
-                    listAdapter.addDuration(name);
-                    listAdapter.addThumbnail("https://img.youtube.com/vi/"+videoId+"/0.jpg");
-                    listAdapter.addVideoId(videoId);
+*/                  m_searchResultObject = null;
+                    if(!listAdapter.hasVideoId(videoId)){
+                        Music music = new Music(name,name,"https://img.youtube.com/vi/"+videoId+"/0.jpg",videoId);
+                        listAdapter.addMusic(music);
+                        m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
+                    }
 
-                    m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
                     //test.add(name);
                     Log.d("TAG123", "first result " + videoId);
                     Log.d("TAG123", "e-tag " + eTag);
@@ -194,7 +194,12 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
 
         @Override
         protected void onPostExecute(SearchResultObject s) {
-            searchResultSubject.onNext(s);
+            if(s != null) {
+                searchResultSubject.onNext(s);
+            }
+            else{
+                Toast.makeText(HostYoutubeActivity.this, "This video already exists", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
