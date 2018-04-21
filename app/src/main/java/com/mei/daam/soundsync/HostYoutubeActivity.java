@@ -303,6 +303,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
 
     private void loadVideo(String videoId){
         currentVideoId = videoId;
+        stopped = false;
         m_youTubePlayer.loadVideo(videoId);
     }
 }
