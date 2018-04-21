@@ -53,6 +53,16 @@ public class CustomAdapter extends BaseAdapter {
             TextView videoName = (TextView) convertView.findViewById(R.id.videoName);
             TextView videoDuration = (TextView) convertView.findViewById(R.id.videoDuration);
             ImageView thumbnail = (ImageView) convertView.findViewById(R.id.videoThumbnail);
+            ImageView deleteImg = (ImageView) convertView.findViewById(R.id.ic_delete);
+            deleteImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!musicList.isEmpty() && musicList.get(position) != null) {
+                        musicList.remove(position);
+                        notifyDataSetChanged();
+                    }
+                }
+            });
             Music selectedMusic = musicList.get(position);
             videoName.setText(selectedMusic.getName());
             videoDuration.setText(selectedMusic.getDuration());
@@ -82,7 +92,7 @@ public class CustomAdapter extends BaseAdapter {
             if(musicList.get(i).getVideoId().equals(videoId))
                 return i;
         }
-        return 0;
+        return -1;
     }
 }
 
