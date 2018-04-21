@@ -22,8 +22,8 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/videoThumbnail"
         android:layout_toEndOf="@+id/videoThumbnail"
-        android:layout_marginLeft="50dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:layout_marginRight="35dp"
         android:layout_marginEnd="35dp"/>
 

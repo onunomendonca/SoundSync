@@ -43,7 +43,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "AIzaSyAXxFYaRA0v0YGRwhaVX45E-pnWMzOmn44";
+    private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -80,9 +80,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                currentVideoId = listAdapter.getVideoId(position);
-                m_youTubePlayer.loadVideo(listAdapter.getVideoId(position));
-
+                loadVideo(listAdapter.getVideoId(position));
             }
         });
         // test.add("This");
@@ -208,8 +206,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
             //  noVideoImage.setVisibility(View.GONE);
             youTubePlayerView.setVisibility(View.VISIBLE);
             m_youTubePlayer = youTubePlayer;
-            currentVideoId = searchResultObject.getVideoId();
-            m_youTubePlayer.loadVideo(searchResultObject.getVideoId());
+            loadVideo(searchResultObject.getVideoId());
             m_youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                 @Override
                 public void onLoading() {
@@ -237,8 +234,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                     stopped = true;
                     int nextPosition = listAdapter.getPositionVideoId(currentVideoId) + 1;
                     if (nextPosition <= listAdapter.getCount() - 1) {
-                        currentVideoId = listAdapter.getVideoId(nextPosition);
-                        m_youTubePlayer.loadVideo(currentVideoId);
+                        loadVideo(listAdapter.getVideoId(nextPosition));
                         stopped = false;
                     }
                 }
@@ -298,12 +294,15 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                 youTubePlayerView.initialize(YOUTUBEKEY, this);
             } else {
                 if (stopped) {
-                    String videoId = searchResultObject.getVideoId();
-                    currentVideoId = videoId;
-                    m_youTubePlayer.loadVideo(videoId);
+                    loadVideo(searchResultObject.getVideoId());
                 }
                 listAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    private void loadVideo(String videoId){
+        currentVideoId = videoId;
+        m_youTubePlayer.loadVideo(videoId);
     }
 }

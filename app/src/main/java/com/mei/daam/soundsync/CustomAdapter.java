@@ -70,6 +70,7 @@ public class CustomAdapter extends BaseAdapter {
 
             return convertView;
         }
+
     public void addMusic(Music music){
         musicList.add(music);
     }
