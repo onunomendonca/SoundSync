@@ -43,7 +43,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "";
+    private final static String YOUTUBEKEY = "AIzaSyAXxFYaRA0v0YGRwhaVX45E-pnWMzOmn44";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -148,7 +148,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                 search.setKey(YOUTUBEKEY);
                 search.setQ(searchedMusic);
                 search.setType(SEARCHTYPE);
-                search.setFields("items(id/videoId,snippet/title,snippet/thumbnails/default/url),nextPageToken");
+                search.setFields("items(id/videoId,snippet/title,snippet/thumbnails/default/url, snippet/channelTitle),nextPageToken");
                 search.setMaxResults((long) 3);
 
                 // Call the API and print results.
@@ -160,13 +160,14 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                     String eTag = result.getEtag();
                     SearchResultSnippet searchResultSnippet = result.getSnippet();
                     String name = searchResultSnippet.getTitle();
+                    String channelTitle=searchResultSnippet.getChannelTitle();
                     //getVideoDetails
                     /*YouTube.Videos.List videoRequest = youtube.videos().list("snippet, recordingDetails").setId(videoId);
                     VideoListResponse video = videoRequest.execute();
                     List<Video> videos = video.getItems();
                     String duration = videos.get(0).getContentDetails().getDuration();*/
                     if (!listAdapter.hasVideoId(videoId)) {
-                        Music music = new Music(name, name, "https://img.youtube.com/vi/" + videoId + "/0.jpg", videoId);
+                        Music music = new Music(name, channelTitle, "https://img.youtube.com/vi/" + videoId + "/0.jpg", videoId);
                         listAdapter.addMusic(music);
                         m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
                     } else {

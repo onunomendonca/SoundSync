@@ -52,7 +52,7 @@ public class CustomAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.custom_adapter,null);
             TextView videoName = (TextView) convertView.findViewById(R.id.videoName);
-            TextView videoDuration = (TextView) convertView.findViewById(R.id.videoDuration);
+            TextView channelTitle = (TextView) convertView.findViewById(R.id.channelTitle);
             ImageView thumbnail = (ImageView) convertView.findViewById(R.id.videoThumbnail);
             ImageView deleteImg = (ImageView) convertView.findViewById(R.id.ic_delete);
             deleteImg.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,7 @@ public class CustomAdapter extends BaseAdapter {
             });
             Music selectedMusic = musicList.get(position);
             videoName.setText(selectedMusic.getName());
-            videoDuration.setText(selectedMusic.getDuration());
+            channelTitle.setText(selectedMusic.getChannelTitle());
             Picasso.get().load(selectedMusic.getThumbnail()).into(thumbnail);
             if(position == selectedItem){
                 convertView.setBackgroundResource(R.color.colorBGPrimaryDark);

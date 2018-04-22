@@ -23,22 +23,22 @@
         android:layout_toRightOf="@+id/videoThumbnail"
         android:layout_toEndOf="@+id/videoThumbnail"
         android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="5dp"
         android:layout_marginRight="35dp"
-        android:layout_marginEnd="35dp"/>
+        android:layout_marginEnd="55dp"/>
 
     <TextView
-        android:id="@+id/videoDuration"
-        android:text="Length"
-        android:textSize="12sp"
-        android:maxLines="1"
-        android:textColor="#ffffff"
+        android:id="@+id/channelTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/videoName"
+        android:layout_alignEnd="@id/videoName"
         android:layout_alignLeft="@+id/videoName"
         android:layout_alignStart="@+id/videoName"
-        android:layout_alignEnd="@id/videoName"/>
+        android:layout_below="@+id/videoName"
+        android:maxLines="1"
+        android:text="Length"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/ic_delete"

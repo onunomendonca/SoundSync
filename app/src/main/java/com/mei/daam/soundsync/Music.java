@@ -7,14 +7,14 @@ package com.mei.daam.soundsync;
 public class Music {
 
     private String name;
-    private String duration;
+    private String channelTitle;
     private String thumbnail;
     private String videoId;
 
-    public Music (String name, String duration, String thumbnail, String videoId){
+    public Music (String name, String channelTitle, String thumbnail, String videoId){
 
         this.name = name;
-        this.duration = duration;
+        this.channelTitle = channelTitle;
         this.thumbnail = thumbnail;
         this.videoId = videoId;
     }
@@ -27,8 +27,8 @@ public class Music {
         return thumbnail;
     }
 
-    public String getDuration() {
-        return duration;
+    public String getChannelTitle() {
+        return channelTitle;
     }
 
     public String getName() {
