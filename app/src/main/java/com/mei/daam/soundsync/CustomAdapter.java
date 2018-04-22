@@ -22,6 +22,7 @@ public class CustomAdapter extends BaseAdapter {
 
         Context context;
         private List<Music> musicList;
+        private int selectedItem;
 
         public CustomAdapter(Context context){
             //super(context, R.layout.single_list_app_item, utilsArrayList);
@@ -67,7 +68,9 @@ public class CustomAdapter extends BaseAdapter {
             videoName.setText(selectedMusic.getName());
             videoDuration.setText(selectedMusic.getDuration());
             Picasso.get().load(selectedMusic.getThumbnail()).into(thumbnail);
-
+            if(position == selectedItem){
+                convertView.setBackgroundResource(R.color.colorBGPrimaryDark);
+            }
             return convertView;
         }
 
@@ -94,6 +97,10 @@ public class CustomAdapter extends BaseAdapter {
                 return i;
         }
         return -1;
+    }
+
+    public void setSelectedItem(int selectedItem) {
+        this.selectedItem = selectedItem;
     }
 }
 

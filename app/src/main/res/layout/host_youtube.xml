@@ -51,7 +51,6 @@
         android:layout_marginBottom="0dp"
         android:divider="#d3d3d3"
         android:dividerHeight="1dp"
-        android:background="@drawable/list_view_selector"
         app:layout_constraintBottom_toTopOf="@+id/add_button_host"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

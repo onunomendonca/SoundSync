@@ -207,6 +207,33 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
             youTubePlayerView.setVisibility(View.VISIBLE);
             m_youTubePlayer = youTubePlayer;
             loadVideo(searchResultObject.getVideoId());
+            m_youTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
+                @Override
+                public void onPlaying() {
+                    stopped = false;
+                    Log.d("TAG123", "HERE");
+                }
+
+                @Override
+                public void onPaused() {
+
+                }
+
+                @Override
+                public void onStopped() {
+
+                }
+
+                @Override
+                public void onBuffering(boolean b) {
+
+                }
+
+                @Override
+                public void onSeekTo(int i) {
+
+                }
+            });
             m_youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                 @Override
                 public void onLoading() {
@@ -225,7 +252,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
 
                 @Override
                 public void onVideoStarted() {
-
+                    stopped = false;
                 }
 
                 @Override
@@ -301,9 +328,11 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         }
     }
 
-    private void loadVideo(String videoId){
+    private void loadVideo(String videoId) {
         currentVideoId = videoId;
         stopped = false;
         m_youTubePlayer.loadVideo(videoId);
+        listAdapter.setSelectedItem(listAdapter.getPositionVideoId(videoId));
+        listAdapter.notifyDataSetChanged();
     }
 }
