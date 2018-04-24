@@ -11,10 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-/**
- * Created by D01 on 26/03/2018.
- */
-
 public class JoinGroupFragment extends Fragment {
 //STILL NEEDS THE QRCODE AND NFC IMAGES
 
@@ -40,11 +36,22 @@ public class JoinGroupFragment extends Fragment {
                     Toast.makeText(getContext(),"Invalid name",Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Intent intent = new Intent(getContext(), GuestYoutubeActivity.class);
-                    intent.putExtra(MainActivity.GROUP_NAME, groupName);
-                    startActivity(intent);
-                }
-
+                    //TENTAR ENTRAR NO GRUPO
+                    Group group = new Group(groupName);
+                    FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
+                    fireBaseHandler.groupExists().doOnNext(exists -> {
+                        if (exists == ResultMapper.EXISTS) {
+                            Intent intent = new Intent(getContext(), HostYoutubeActivity.class);
+                            intent.putExtra(MainActivity.GROUP_NAME, groupName);
+                            startActivity(intent);
+                     } else if(exists == ResultMapper.CREATE){
+                            Toast.makeText(getContext(),"O grupo não existe.",Toast.LENGTH_LONG).show();
+                    }
+                 else{
+                    Toast.makeText(getContext(), "An unexpected error occured", Toast.LENGTH_LONG).show();
+                 }
+                 }).subscribe();
+                 }
             }
         });
     }
