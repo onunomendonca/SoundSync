@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.Transparent"
+    android:fitsSystemWindows="true"
     tools:context="com.mei.daam.soundsync.MainActivity">
 
 
@@ -12,22 +13,22 @@
         android:id="@+id/sound_sync_img"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:src="@drawable/soundsync"
-        android:background="@drawable/image_border"
+        android:layout_marginTop="36dp"
+
         android:padding="1dp"
+        android:src="@drawable/logo_4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/fragment_placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
+        android:layout_width="383dp"
+        android:layout_height="453dp"
         android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/sound_sync_img">
 
     </FrameLayout>
 

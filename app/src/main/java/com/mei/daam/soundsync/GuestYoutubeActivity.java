@@ -40,7 +40,7 @@ public class GuestYoutubeActivity extends YouTubeBaseActivity implements YouTube
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guest_youtube);
 
-        getWindow().setBackgroundDrawableResource(R.drawable.first_layer);
+        getWindow().setBackgroundDrawableResource(R.drawable.background_blurred);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(R.drawable.first_layer);
         }

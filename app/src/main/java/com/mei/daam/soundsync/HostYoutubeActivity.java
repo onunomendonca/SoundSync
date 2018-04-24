@@ -43,7 +43,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "AIzaSyAXxFYaRA0v0YGRwhaVX45E-pnWMzOmn44";
+    private final static String YOUTUBEKEY = "AIzaSyDPgccUO-JzxIismVvpowfX136cSWKBjJc";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -65,7 +65,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.host_youtube);
 
-        getWindow().setBackgroundDrawableResource(R.drawable.first_layer);
+        getWindow().setBackgroundDrawableResource(R.drawable.background_blurred);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(R.drawable.first_layer);
         }

@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity{
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getWindow().setBackgroundDrawableResource(R.drawable.first_layer);
+        getWindow().setBackgroundDrawableResource(R.drawable.background_blurred);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(R.drawable.first_layer);
         }
