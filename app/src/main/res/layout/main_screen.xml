@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_gravity="center_horizontal"
+    android:fitsSystemWindows="true">
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelinevertical"
@@ -25,8 +26,8 @@
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/oval_white_button"
         android:text="CREATE GROUP"
@@ -42,8 +43,8 @@
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/oval_white_button"
         android:text="JOIN GROUP"
@@ -57,15 +58,15 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="381dp"
+        android:layout_width="0dp"
         android:layout_height="28dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textColor="#ffffff"
         android:text="PROTOTYPE FOR DAAM - MEI 2017/2018"
         android:textAlignment="center"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
