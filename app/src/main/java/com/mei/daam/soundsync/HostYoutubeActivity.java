@@ -6,12 +6,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -49,7 +46,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "KEY";
+    private final static String YOUTUBEKEY = "key";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -85,53 +82,16 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         listView = (ListView) findViewById(R.id.list_view_host);
         listAdapter = new CustomAdapter(HostYoutubeActivity.this);
         listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                loadVideo(listAdapter.getVideoId(position));
-            }
-        });
 
         //Creates subjects
         searchResultSubject = create();
         musicSearchSubject = create();
 
-
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         noVideoImage = (ImageView) findViewById(R.id.no_video_img);
         addButton = (Button) findViewById(R.id.add_button_host);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(HostYoutubeActivity.this)
-                        .setTitle("Add new song");
-                final EditText input = new EditText(HostYoutubeActivity.this);
-                input.setInputType((InputType.TYPE_CLASS_TEXT));
-                builder.setView(input);
-                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String inputWord = input.getText().toString();
-                        if (inputWord.equals("")) {
-                            Toast.makeText(HostYoutubeActivity.this, "Empty Input", Toast.LENGTH_SHORT).show();
-                        } else {
-                            musicSearchSubject.onNext(inputWord);
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.show();
-            }
-        });
 
-        //Prepares subjects to wait for an input
-        resultFromMusicSearch();
-        resultFromSearchResult();
+        new HostYoutubePresenter(this, listView, listAdapter, addButton).present();
     }
 
     @Override
@@ -233,34 +193,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         return searchResultSubject;
     }
 
-    private void resultFromMusicSearch() {
-        musicSearchSubjectResult().doOnNext(musicSearchInput -> searchedMusic = musicSearchInput)
-                .doOnNext(__ -> new SearchVideo().execute())
-                .subscribe();
-    }
-
-    private void resultFromSearchResult() {
-        searchResultSubjectResult().doOnNext(searchResult -> searchResultObject = searchResult)
-                .doOnNext(__ -> hasResultsDecision())
-                .subscribe();
-    }
-
-    private void hasResultsDecision() {
-        if (searchResultObject.getVideoId().equals("-1")) {
-            Toast.makeText(HostYoutubeActivity.this, "This video already exists", Toast.LENGTH_SHORT).show();
-        } else {
-            if (m_youTubePlayer == null) {
-                youTubePlayerView.initialize(YOUTUBEKEY, this);
-            } else {
-                if (stopped) {
-                    loadVideo(searchResultObject.getVideoId());
-                }
-                listAdapter.notifyDataSetChanged();
-            }
-        }
-    }
-
-    private void loadVideo(String videoId) {
+    public void loadVideo(String videoId) {
         currentVideoId = videoId;
         stopped = false;
         m_youTubePlayer.loadVideo(videoId);
@@ -285,6 +218,10 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
             }
         });
         builder.show();
+    }
+
+    public void initializeYoutube() {
+        youTubePlayerView.initialize(YOUTUBEKEY, this);
     }
 
     private class SearchVideo extends AsyncTask<Void, Void, SearchResultObject> {
@@ -344,4 +281,41 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         }
     }
 
+    //Presenter methods
+
+    public void showToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    public void musicSearched(String inputWord) {
+        musicSearchSubject.onNext(inputWord);
+    }
+
+    public void startThread() {
+        new HostYoutubeActivity.SearchVideo().execute();
+    }
+
+    public void setSearchedMusic(String musicSearchInput) {
+        searchedMusic = musicSearchInput;
+    }
+
+    public void setSearchResultObject(SearchResultObject searchResult) {
+        searchResultObject = searchResult;
+    }
+
+    public SearchResultObject getSearchResultObject(){
+        return searchResultObject;
+    }
+
+    public String getSearchedMusic(){
+        return searchedMusic;
+    }
+
+    public YouTubePlayer getYouTubePlayer(){
+        return m_youTubePlayer;
+    }
+
+    public boolean isStopped(){
+        return stopped;
+    }
 }
