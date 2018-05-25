@@ -1,10 +1,7 @@
 package com.mei.daam.soundsync;
 
-import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,30 +27,10 @@ public class CreateGroupFragment extends Fragment {
 
         editText = (EditText) view.findViewById(R.id.name_of_group);
         nextButton = (Button) view.findViewById(R.id.next_btn);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String groupName = editText.getText().toString();
-                if (groupName.equals("")) {
-                    Toast.makeText(getContext(), "Invalid name. Choose a new name!", Toast.LENGTH_LONG).show();
-                } else {
-                    Group group = new Group(groupName);
-                  /**  FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
-                    fireBaseHandler.writeGroupOnDB();
-                    fireBaseHandler.groupExists().doOnNext(exists -> {
-                        if (exists == ResultMapper.EXISTS) {
-                            Toast.makeText(getContext(), "Group already exists! Choose a new name! ", Toast.LENGTH_LONG).show();
-                        } else if(exists == ResultMapper.CREATE){*/
-                            Intent intent = new Intent(getContext(), HostYoutubeActivity.class);
-                            intent.putExtra(MainActivity.GROUP_NAME, groupName);
-                            startActivity(intent);
-                        }
-                       /** else{
-                            Toast.makeText(getContext(), "An unexpected error occured", Toast.LENGTH_LONG).show();
-                        }
-                    }).subscribe();
-                }*/
-            }
-        });
+        new CreateGroupPresenter(this, editText, nextButton).setListeners();
+    }
+
+    public void showToast(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }

@@ -32,17 +32,6 @@ public class MainScreenFragment extends Fragment {
         fragmentNavigator = ((MainActivity) getActivity()).getFragmentNavigator();
         novoGrupo = (Button) view.findViewById(R.id.novo_grupo_btn);
         juntarGrupo = (Button) view.findViewById(R.id.juntar_grupo_btn);
-        novoGrupo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragmentNavigator.navigateTo(new CreateGroupFragment(), true);
-            }
-        });
-        juntarGrupo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragmentNavigator.navigateTo(new JoinGroupFragment(), true);
-            }
-        });
+        new MainScreenPresenter(fragmentNavigator, novoGrupo, juntarGrupo).setListeners();
     }
 }

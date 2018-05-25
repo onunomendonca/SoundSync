@@ -36,15 +36,20 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
+import static com.google.android.youtube.player.YouTubePlayer.ErrorReason;
+import static com.google.android.youtube.player.YouTubePlayer.OnInitializedListener;
+import static com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
+import static com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
+import static com.google.android.youtube.player.YouTubePlayer.Provider;
 import static io.reactivex.subjects.PublishSubject.create;
 
 /**
  * Created by D01 on 26/03/2018.
  */
 
-public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener { //Implements Listeners here
+public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "AIzaSyDPgccUO-JzxIismVvpowfX136cSWKBjJc";
+    private final static String YOUTUBEKEY = "KEY";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -75,7 +80,8 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.GROUP_NAME);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        noVideoImage = (ImageView) findViewById(R.id.no_video_img);
+
+        //Prepares Adapter
         listView = (ListView) findViewById(R.id.list_view_host);
         listAdapter = new CustomAdapter(HostYoutubeActivity.this);
         listView.setAdapter(listAdapter);
@@ -85,23 +91,14 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                 loadVideo(listAdapter.getVideoId(position));
             }
         });
-        // test.add("This");
-        // test.add("is");
-        // test.add("just");
-        //test.add("a test");
-        // test.add("scroll");
-        // test.add("scroll");
-        // test.add("scroll");
-        //test.add("scroll");
-        //test.add("scroll");
-        //test.add("scroll");
-        //test.add("scroll");
 
-
+        //Creates subjects
         searchResultSubject = create();
         musicSearchSubject = create();
+
+
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        //noVideoImage = (ImageView) findViewById(R.id.no_video_img);
+        noVideoImage = (ImageView) findViewById(R.id.no_video_img);
         addButton = (Button) findViewById(R.id.add_button_host);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,90 +128,23 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                 builder.show();
             }
         });
+
+        //Prepares subjects to wait for an input
         resultFromMusicSearch();
         resultFromSearchResult();
     }
 
-    private class TestSearch extends AsyncTask<Void, Void, SearchResultObject> {
-
-        @Override
-        protected SearchResultObject doInBackground(Void... voids) {
-            SearchResultObject m_searchResultObject = null;
-            try {
-                youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
-                    public void initialize(HttpRequest request) throws IOException {
-                    }
-                }).build();
-
-                YouTube.Search.List search = youtube.search().list("id,snippet");
-                search.setKey(YOUTUBEKEY);
-                search.setQ(searchedMusic);
-                search.setType(SEARCHTYPE);
-                search.setFields("items(id/videoId,snippet/title,snippet/thumbnails/default/url, snippet/channelTitle),nextPageToken");
-                search.setMaxResults((long) 3);
-
-                // Call the API and print results.
-                SearchListResponse searchResponse = search.execute();
-                List<SearchResult> searchResultList = searchResponse.getItems();
-                if (!searchResultList.isEmpty()) {
-                    SearchResult result = searchResultList.get(0);
-                    String videoId = result.getId().getVideoId();
-                    String eTag = result.getEtag();
-                    SearchResultSnippet searchResultSnippet = result.getSnippet();
-                    String name = searchResultSnippet.getTitle();
-                    String channelTitle=searchResultSnippet.getChannelTitle();
-                    //getVideoDetails
-                    /*YouTube.Videos.List videoRequest = youtube.videos().list("snippet, recordingDetails").setId(videoId);
-                    VideoListResponse video = videoRequest.execute();
-                    List<Video> videos = video.getItems();
-                    String duration = videos.get(0).getContentDetails().getDuration();*/
-                    if (!listAdapter.hasVideoId(videoId)) {
-                        Music music = new Music(name, channelTitle, "https://img.youtube.com/vi/" + videoId + "/0.jpg", videoId);
-                        listAdapter.addMusic(music);
-                        m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
-                    } else {
-                        m_searchResultObject = new SearchResultObject("-1", "-1", null);
-                    }
-
-                    //test.add(name);
-                    Log.d("TAG123", "first result " + videoId);
-                    Log.d("TAG123", "e-tag " + eTag);
-                    Log.d("TAG123", "snippet " + searchResultSnippet);
-                }
-
-            } catch (GoogleJsonResponseException e) {
-                Log.d("TAG123", "There was a service error: " + e.getDetails().getCode() + " : "
-                        + e.getDetails().getMessage());
-            } catch (IOException e) {
-                Log.d("TAG123", "There was an IO error: " + e.getCause() + " : " + e.getMessage());
-            } catch (Throwable t) {
-                Log.d("TAG123", "stack " + t.toString());
-            }
-            return m_searchResultObject;
-        }
-
-        @Override
-        protected void onPostExecute(SearchResultObject s) {
-            if (s == null) {
-                Toast.makeText(HostYoutubeActivity.this, "No Result found", Toast.LENGTH_LONG).show();
-            } else {
-                searchResultSubject.onNext(s);
-            }
-        }
-    }
-
     @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
+    public void onInitializationSuccess(Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
         if (!restored) {
             noVideoImage.setVisibility(View.GONE);
             youTubePlayerView.setVisibility(View.VISIBLE);
             m_youTubePlayer = youTubePlayer;
             loadVideo(searchResultObject.getVideoId());
-            m_youTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
+            m_youTubePlayer.setPlaybackEventListener(new PlaybackEventListener() {
                 @Override
                 public void onPlaying() {
                     stopped = false;
-                    Log.d("TAG123", "HERE");
                 }
 
                 @Override
@@ -237,7 +167,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
 
                 }
             });
-            m_youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+            m_youTubePlayer.setPlayerStateChangeListener(new PlayerStateChangeListener() {
                 @Override
                 public void onLoading() {
 
@@ -260,7 +190,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
 
                 @Override
                 public void onVideoEnded() {
-                    Log.d("TAG123", "STOPPED");
                     stopped = true;
                     int nextPosition = listAdapter.getPositionVideoId(currentVideoId) + 1;
                     if (nextPosition <= listAdapter.getCount() - 1) {
@@ -270,7 +199,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
                 }
 
                 @Override
-                public void onError(YouTubePlayer.ErrorReason errorReason) {
+                public void onError(ErrorReason errorReason) {
 
                 }
             });
@@ -278,7 +207,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
     }
 
     @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+    public void onInitializationFailure(Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
         if (youTubeInitializationResult.isUserRecoverableError()) {
             youTubeInitializationResult.getErrorDialog(this, 1).show();
         } else {
@@ -292,7 +221,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         }
     }
 
-    protected YouTubePlayer.Provider getYoutubePlayerProvider() {
+    protected Provider getYoutubePlayerProvider() {
         return youTubePlayerView;
     }
 
@@ -306,7 +235,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
 
     private void resultFromMusicSearch() {
         musicSearchSubjectResult().doOnNext(musicSearchInput -> searchedMusic = musicSearchInput)
-                .doOnNext(__ -> new TestSearch().execute())
+                .doOnNext(__ -> new SearchVideo().execute())
                 .subscribe();
     }
 
@@ -338,4 +267,81 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         listAdapter.setSelectedItem(listAdapter.getPositionVideoId(videoId));
         listAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HostYoutubeActivity.this)
+                .setTitle("Do you want to leave the group").setMessage("Are you sure you want to leave this group?");
+        builder.setPositiveButton("Leave", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                HostYoutubeActivity.super.onBackPressed();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private class SearchVideo extends AsyncTask<Void, Void, SearchResultObject> {
+
+        @Override
+        protected SearchResultObject doInBackground(Void... voids) {
+            SearchResultObject m_searchResultObject = null;
+            try {
+                youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
+                    public void initialize(HttpRequest request) throws IOException {
+                    }
+                }).build();
+
+                YouTube.Search.List search = youtube.search().list("id,snippet");
+                search.setKey(YOUTUBEKEY);
+                search.setQ(searchedMusic);
+                search.setType(SEARCHTYPE);
+                search.setFields("items(id/videoId,snippet/title,snippet/thumbnails/default/url, snippet/channelTitle),nextPageToken");
+                search.setMaxResults((long) 3);
+
+                // Call the API and print results.
+                SearchListResponse searchResponse = search.execute();
+                List<SearchResult> searchResultList = searchResponse.getItems();
+                if (!searchResultList.isEmpty()) {
+                    SearchResult result = searchResultList.get(0);
+                    String videoId = result.getId().getVideoId();
+                    String eTag = result.getEtag();
+                    SearchResultSnippet searchResultSnippet = result.getSnippet();
+                    String name = searchResultSnippet.getTitle();
+                    String channelTitle=searchResultSnippet.getChannelTitle();
+                    if (!listAdapter.hasVideoId(videoId)) {
+                        Music music = new Music(name, channelTitle, "https://img.youtube.com/vi/" + videoId + "/0.jpg", videoId);
+                        listAdapter.addMusic(music);
+                        m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
+                    } else {
+                        m_searchResultObject = new SearchResultObject("-1", "-1", null);
+                    }
+                }
+            } catch (GoogleJsonResponseException e) {
+                Log.d("Error", "There was a service error: " + e.getDetails().getCode() + " : "
+                        + e.getDetails().getMessage());
+            } catch (IOException e) {
+                Log.d("Error", "There was an IO error: " + e.getCause() + " : " + e.getMessage());
+            } catch (Throwable t) {
+                Log.d("Error", "stack " + t.toString());
+            }
+            return m_searchResultObject;
+        }
+
+        @Override
+        protected void onPostExecute(SearchResultObject s) {
+            if (s == null) {
+                Toast.makeText(HostYoutubeActivity.this, "No Result found", Toast.LENGTH_LONG).show();
+            } else {
+                searchResultSubject.onNext(s);
+            }
+        }
+    }
+
 }
