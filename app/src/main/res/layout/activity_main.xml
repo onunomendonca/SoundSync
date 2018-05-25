@@ -13,9 +13,8 @@
         android:id="@+id/sound_sync_img"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="36dp"
-
-        android:padding="1dp"
+        android:layout_marginTop="26dp"
+        android:padding="0dp"
         android:src="@drawable/logo_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -24,7 +23,7 @@
 
     <FrameLayout
         android:id="@+id/fragment_placeholder"
-        android:layout_width="383dp"
+        android:layout_width="match_parent"
         android:layout_height="453dp"
         android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
