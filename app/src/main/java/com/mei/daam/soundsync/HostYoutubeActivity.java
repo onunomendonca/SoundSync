@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
     private boolean stopped = false;
     private CustomAdapter listAdapter;
     private String currentVideoId = "";
+    private ImageView noVideoImage;
 
 
     @Override
@@ -73,7 +75,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.GROUP_NAME);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-
+        noVideoImage = (ImageView) findViewById(R.id.no_video_img);
         listView = (ListView) findViewById(R.id.list_view_host);
         listAdapter = new CustomAdapter(HostYoutubeActivity.this);
         listView.setAdapter(listAdapter);
@@ -204,7 +206,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements YouTubeP
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
         if (!restored) {
-            //  noVideoImage.setVisibility(View.GONE);
+            noVideoImage.setVisibility(View.GONE);
             youTubePlayerView.setVisibility(View.VISIBLE);
             m_youTubePlayer = youTubePlayer;
             loadVideo(searchResultObject.getVideoId());

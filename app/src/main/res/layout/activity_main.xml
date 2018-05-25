@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.Transparent"
+    android:layout_gravity="center_vertical|center_horizontal"
     android:fitsSystemWindows="true"
+    android:theme="@style/Theme.Transparent"
     tools:context="com.mei.daam.soundsync.MainActivity">
 
 
@@ -24,7 +25,7 @@
 
     <FrameLayout
         android:id="@+id/fragment_placeholder"
-        android:layout_width="383dp"
+        android:layout_width="match_parent"
         android:layout_height="453dp"
         android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"

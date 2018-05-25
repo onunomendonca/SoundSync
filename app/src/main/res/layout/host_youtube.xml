@@ -59,12 +59,25 @@
         app:layout_constraintTop_toBottomOf="@+id/youtube_view"
         app:layout_constraintVertical_bias="1.0" />
 
+    <ImageView
+        android:id="@+id/no_video_img"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/logo_4"
+        app:layout_constraintEnd_toEndOf="@id/list_view_host"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/list_view_host"
+        app:layout_constraintTop_toBottomOf="@+id/sound_sync_img" />
+
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/youtube_view"
         android:layout_width="match_parent"
         android:layout_height="229dp"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/list_view_host"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/list_view_host"
