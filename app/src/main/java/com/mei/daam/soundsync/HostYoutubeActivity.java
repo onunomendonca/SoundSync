@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -64,6 +64,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private CustomAdapter listAdapter;
     private String currentVideoId = "";
     private ImageView noVideoImage;
+    private TextView groupNameTextView;
 
 
     @Override
@@ -77,8 +78,12 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         }
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.GROUP_NAME);
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        String groupName = intent.getStringExtra(MainActivity.GROUP_NAME);
+        Toast.makeText(this, groupName, Toast.LENGTH_LONG).show();
+
+        groupNameTextView = (TextView) findViewById(R.id.group_name);
+        groupNameTextView.setText(groupName);
+        groupNameTextView.setVisibility(View.VISIBLE);
 
         //Prepares Adapter
         listView = (ListView) findViewById(R.id.list_view_host);
