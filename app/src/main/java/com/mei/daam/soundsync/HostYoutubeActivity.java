@@ -1,5 +1,6 @@
 package com.mei.daam.soundsync;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -46,7 +48,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "key";
+    private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -225,7 +227,13 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     }
 
     private class SearchVideo extends AsyncTask<Void, Void, SearchResultObject> {
+        private ProgressDialog progressbar=new ProgressDialog(HostYoutubeActivity.this);
 
+        @Override
+        protected void onPreExecute(){
+            progressbar.setMessage("Searching...");
+            progressbar.show();
+        }
         @Override
         protected SearchResultObject doInBackground(Void... voids) {
             SearchResultObject m_searchResultObject = null;
@@ -273,6 +281,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
         @Override
         protected void onPostExecute(SearchResultObject s) {
+            progressbar.dismiss();
             if (s == null) {
                 Toast.makeText(HostYoutubeActivity.this, "No Result found", Toast.LENGTH_LONG).show();
             } else {

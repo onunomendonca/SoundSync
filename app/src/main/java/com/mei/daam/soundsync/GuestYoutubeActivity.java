@@ -29,7 +29,7 @@ import java.util.List;
 
 public class GuestYoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaybackEventListener { //Implements Listeners here
 //TODO
-    private final static String YOUTUBEKEY = "AIzaSyAXxFYaRA0v0YGRwhaVX45E-pnWMzOmn44";
+    private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
