@@ -29,21 +29,21 @@ public class CreateGroupPresenter {
                     fragment.showToast("Invalid name. Choose a new name!");
                 } else {
                     Group group = new Group(groupName);
-                    /**  FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
+                     FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
                      fireBaseHandler.writeGroupOnDB();
                      fireBaseHandler.groupExists().doOnNext(exists -> {
                      if (exists == ResultMapper.EXISTS) {
                      fragment.showToast("Group already exists! Choose a new name! ");
-                     } else if(exists == ResultMapper.CREATE){*/
+                     } else if(exists == ResultMapper.CREATE){
                     Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
                     intent.putExtra(MainActivity.GROUP_NAME, groupName);
                     fragment.startActivity(intent);
                 }
-                /** else{
-                 fragment.showToast("An unexpected error occured")
+                else{
+                 fragment.showToast("An unexpected error occured");
                  }
                  }).subscribe();
-                 }*/
+                 }
             }
         });
     }
