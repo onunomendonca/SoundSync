@@ -1,35 +1,39 @@
 {
   "project_info": {
-    "project_number": "1039875235588",
-    "firebase_url": "https://soundsync-9b21d.firebaseio.com",
-    "project_id": "soundsync-9b21d",
-    "storage_bucket": "soundsync-9b21d.appspot.com"
+    "project_number": "552132547011",
+    "firebase_url": "https://soundsync-86ceb.firebaseio.com",
+    "project_id": "soundsync-86ceb",
+    "storage_bucket": "soundsync-86ceb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1039875235588:android:466d96f3e9fc0f0b",
+        "mobilesdk_app_id": "1:552132547011:android:466d96f3e9fc0f0b",
         "android_client_info": {
           "package_name": "com.example.nunomendonca.soundsync"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1039875235588-al64b41hh5c9o3lgl1a047gg1vtbfu8l.apps.googleusercontent.com",
+          "client_id": "552132547011-vo8koqegb44hsfkngchpg50bnponeout.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.nunomendonca.soundsync",
-            "certificate_hash": "e24d826783695bb52b22f772d615b5d2aaf64b03"
+            "certificate_hash": "1c6a7565351de9e47e6645485c4caf1b115b83bb"
           }
         },
         {
-          "client_id": "1039875235588-svikqnfbiv3ffvq53avrhnmpac7cnehb.apps.googleusercontent.com",
+          "client_id": "552132547011-75h67boc6qvn66giu9kiuo39hif55bqn.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "552132547011-75h67boc6qvn66giu9kiuo39hif55bqn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALxvTmK0MIeaEyVzcguqcAXHZKW0qn1dk"
+          "current_key": "AIzaSyBAVbMK41kai-GDbplLa15Lb7aayNoxZsQ"
         }
       ],
       "services": {
@@ -40,7 +44,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "1039875235588-svikqnfbiv3ffvq53avrhnmpac7cnehb.apps.googleusercontent.com",
+              "client_id": "552132547011-75h67boc6qvn66giu9kiuo39hif55bqn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

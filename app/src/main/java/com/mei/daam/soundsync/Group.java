@@ -1,10 +1,13 @@
 package com.mei.daam.soundsync;
 
-public class Group {
+import java.io.Serializable;
+
+public class Group implements Serializable {
 
     private String name;
+    private FireBaseHandler fbhandler;
     //LISTA de Músicas
-    //LISTA Quem ta ligado
+    private CustomAdapter musicList;
 
 
     public Group(String name) {
@@ -16,4 +19,11 @@ public class Group {
         return name;
     }
 
+    public CustomAdapter getMusicList() {
+        return musicList;
+    }
+
+    public void setMusicList(CustomAdapter musicList) {
+        this.musicList = musicList;
+    }
 }

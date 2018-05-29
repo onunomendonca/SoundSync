@@ -48,7 +48,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "";
+    private final static String YOUTUBEKEY = "AIzaSyDOTyfnF8eQDqSSGkhrRuX1xJZdrCaS9X4";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -61,10 +61,12 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private YouTube youtube;
     private Button addButton;
     private boolean stopped = false;
-    private CustomAdapter listAdapter;
+    //private CustomAdapter listAdapter;
     private String currentVideoId = "";
     private ImageView noVideoImage;
     private TextView groupNameTextView;
+    private Group group;
+    private FireBaseHandler fireBaseHandler;
 
 
     @Override
@@ -81,13 +83,17 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         String groupName = intent.getStringExtra(MainActivity.GROUP_NAME);
         Toast.makeText(this, groupName, Toast.LENGTH_LONG).show();
 
+        group = (Group) intent.getSerializableExtra("Group");
+        fireBaseHandler = new FireBaseHandler(group);
+
         groupNameTextView = (TextView) findViewById(R.id.group_name);
-        groupNameTextView.setText(groupName);
+        groupNameTextView.setText(group.getName());
         groupNameTextView.setVisibility(View.VISIBLE);
 
         //Prepares Adapter
         listView = (ListView) findViewById(R.id.list_view_host);
-        listAdapter = new CustomAdapter(HostYoutubeActivity.this);
+        CustomAdapter listAdapter = new CustomAdapter(HostYoutubeActivity.this, group);
+        group.setMusicList(listAdapter);
         listView.setAdapter(listAdapter);
 
         //Creates subjects
@@ -158,9 +164,9 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
                 @Override
                 public void onVideoEnded() {
                     stopped = true;
-                    int nextPosition = listAdapter.getPositionVideoId(currentVideoId) + 1;
-                    if (nextPosition <= listAdapter.getCount() - 1) {
-                        loadVideo(listAdapter.getVideoId(nextPosition));
+                    int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId) + 1;
+                    if (nextPosition <= group.getMusicList().getCount() - 1) {
+                        loadVideo(group.getMusicList().getVideoId(nextPosition));
                         stopped = false;
                     }
                 }
@@ -204,8 +210,8 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         currentVideoId = videoId;
         stopped = false;
         m_youTubePlayer.loadVideo(videoId);
-        listAdapter.setSelectedItem(listAdapter.getPositionVideoId(videoId));
-        listAdapter.notifyDataSetChanged();
+        group.getMusicList().setSelectedItem(group.getMusicList().getPositionVideoId(videoId));
+        group.getMusicList().notifyDataSetChanged();
     }
 
     @Override
@@ -265,9 +271,9 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
                     SearchResultSnippet searchResultSnippet = result.getSnippet();
                     String name = searchResultSnippet.getTitle();
                     String channelTitle=searchResultSnippet.getChannelTitle();
-                    if (!listAdapter.hasVideoId(videoId)) {
+                    if (!group.getMusicList().hasVideoId(videoId)) {
                         Music music = new Music(name, channelTitle, "https://img.youtube.com/vi/" + videoId + "/0.jpg", videoId);
-                        listAdapter.addMusic(music);
+                        group.getMusicList().addMusic(music);
                         m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
                     } else {
                         m_searchResultObject = new SearchResultObject("-1", "-1", null);

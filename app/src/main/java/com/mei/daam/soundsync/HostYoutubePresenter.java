@@ -96,7 +96,6 @@ public class HostYoutubePresenter {
                 if (activity.isStopped()) {
                     activity.loadVideo(activity.getSearchResultObject().getVideoId());
                 }
-                listAdapter.notifyDataSetChanged();
             }
         }
     }

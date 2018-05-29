@@ -5,9 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-/**
- * Created by D01 on 25/05/2018.
- */
+import java.io.Serializable;
 
 public class CreateGroupPresenter {
     private final CreateGroupFragment fragment;
@@ -37,6 +35,7 @@ public class CreateGroupPresenter {
                      } else if(exists == ResultMapper.CREATE){
                     Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
                     intent.putExtra(MainActivity.GROUP_NAME, groupName);
+                    intent.putExtra("Group", (Serializable) group);
                     fragment.startActivity(intent);
                 }
                 else{
