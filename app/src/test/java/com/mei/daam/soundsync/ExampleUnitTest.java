@@ -1,4 +1,4 @@
-package com.example.nunomendonca.soundsync;
+package com.mei.daam.soundsync;
 
 import org.junit.Test;
 

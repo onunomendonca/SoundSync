@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/videoThumbnail"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/soundsync" />
+
+    <TextView
+        android:id="@+id/videoName"
+        android:text="Song Name"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:textColor="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/videoThumbnail"
+        android:layout_toEndOf="@+id/videoThumbnail"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginEnd="55dp"/>
+
+    <TextView
+        android:id="@+id/channelTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/videoName"
+        android:layout_alignLeft="@+id/videoName"
+        android:layout_alignStart="@+id/videoName"
+        android:layout_below="@+id/videoName"
+        android:maxLines="1"
+        android:text="Length"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/ic_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/videoName"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"/>
+
+</RelativeLayout>

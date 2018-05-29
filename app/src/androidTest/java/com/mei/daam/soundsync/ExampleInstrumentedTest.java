@@ -1,4 +1,4 @@
-package com.example.nunomendonca.soundsync;
+package com.mei.daam.soundsync;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
