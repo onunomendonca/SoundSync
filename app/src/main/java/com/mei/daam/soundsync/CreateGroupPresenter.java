@@ -27,22 +27,21 @@ public class CreateGroupPresenter {
                     fragment.showToast("Invalid name. Choose a new name!");
                 } else {
                     Group group = new Group(groupName);
-                     FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
-                     fireBaseHandler.writeGroupOnDB();
-                     fireBaseHandler.groupExists().doOnNext(exists -> {
-                     if (exists == ResultMapper.EXISTS) {
-                     fragment.showToast("Group already exists! Choose a new name! ");
-                     } else if(exists == ResultMapper.CREATE){
-                    Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
-                    intent.putExtra(MainActivity.GROUP_NAME, groupName);
-                    intent.putExtra("Group", (Serializable) group);
-                    fragment.startActivity(intent);
+                    FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
+                    fireBaseHandler.checkAndRightGroupOnDB();
+                    fireBaseHandler.groupExists().doOnNext(exists -> {
+                        if (exists == ResultMapper.EXISTS) {
+                            fragment.showToast("Group already exists! Choose a new name! ");
+                        } else if (exists == ResultMapper.CREATE) {
+                            Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
+                            intent.putExtra(MainActivity.GROUP_NAME, groupName);
+                            intent.putExtra("Group", (Serializable) group);
+                            fragment.startActivity(intent);
+                        } else {
+                            fragment.showToast("An unexpected error occured");
+                        }
+                    }).subscribe();
                 }
-                else{
-                 fragment.showToast("An unexpected error occured");
-                 }
-                 }).subscribe();
-                 }
             }
         });
     }

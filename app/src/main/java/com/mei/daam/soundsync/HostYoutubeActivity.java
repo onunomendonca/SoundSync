@@ -61,12 +61,10 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private YouTube youtube;
     private Button addButton;
     private boolean stopped = false;
-    //private CustomAdapter listAdapter;
     private String currentVideoId = "";
     private ImageView noVideoImage;
     private TextView groupNameTextView;
     private Group group;
-    private FireBaseHandler fireBaseHandler;
 
 
     @Override
@@ -84,7 +82,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         Toast.makeText(this, groupName, Toast.LENGTH_LONG).show();
 
         group = (Group) intent.getSerializableExtra("Group");
-        fireBaseHandler = new FireBaseHandler(group);
 
         groupNameTextView = (TextView) findViewById(R.id.group_name);
         groupNameTextView.setText(group.getName());
@@ -113,7 +110,12 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
             noVideoImage.setVisibility(View.GONE);
             youTubePlayerView.setVisibility(View.VISIBLE);
             m_youTubePlayer = youTubePlayer;
-            loadVideo(searchResultObject.getVideoId());
+            if (group.getMusicList().getCount() > 0 && currentVideoId.equals("")) {
+                loadVideo(group.getMusicList().getVideoId(0));
+            }
+            if (searchResultObject != null) {
+                loadVideo(searchResultObject.getVideoId());
+            }
             m_youTubePlayer.setPlaybackEventListener(new PlaybackEventListener() {
                 @Override
                 public void onPlaying() {
@@ -209,7 +211,11 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     public void loadVideo(String videoId) {
         currentVideoId = videoId;
         stopped = false;
-        m_youTubePlayer.loadVideo(videoId);
+        if (m_youTubePlayer != null) {
+            m_youTubePlayer.loadVideo(videoId);
+        } else {
+            initializeYoutube();
+        }
         group.getMusicList().setSelectedItem(group.getMusicList().getPositionVideoId(videoId));
         group.getMusicList().notifyDataSetChanged();
     }
@@ -238,13 +244,14 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     }
 
     private class SearchVideo extends AsyncTask<Void, Void, SearchResultObject> {
-        private ProgressDialog progressbar=new ProgressDialog(HostYoutubeActivity.this);
+        private ProgressDialog progressbar = new ProgressDialog(HostYoutubeActivity.this);
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             progressbar.setMessage("Searching...");
             progressbar.show();
         }
+
         @Override
         protected SearchResultObject doInBackground(Void... voids) {
             SearchResultObject m_searchResultObject = null;
@@ -270,7 +277,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
                     String eTag = result.getEtag();
                     SearchResultSnippet searchResultSnippet = result.getSnippet();
                     String name = searchResultSnippet.getTitle();
-                    String channelTitle=searchResultSnippet.getChannelTitle();
+                    String channelTitle = searchResultSnippet.getChannelTitle();
                     if (!group.getMusicList().hasVideoId(videoId)) {
                         Music music = new Music(name, channelTitle, "https://img.youtube.com/vi/" + videoId + "/0.jpg", videoId);
                         group.getMusicList().addMusic(music);
@@ -303,7 +310,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
     //Presenter methods
 
-    public void showToast(String message){
+    public void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
@@ -323,19 +330,15 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         searchResultObject = searchResult;
     }
 
-    public SearchResultObject getSearchResultObject(){
+    public SearchResultObject getSearchResultObject() {
         return searchResultObject;
     }
 
-    public String getSearchedMusic(){
-        return searchedMusic;
-    }
-
-    public YouTubePlayer getYouTubePlayer(){
+    public YouTubePlayer getYouTubePlayer() {
         return m_youTubePlayer;
     }
 
-    public boolean isStopped(){
+    public boolean isStopped() {
         return stopped;
     }
 }

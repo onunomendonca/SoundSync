@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.Serializable;
+
 /**
  * Created by D01 on 25/05/2018.
  */
@@ -26,22 +28,22 @@ public class JoinGroupPresenter {
             @Override
             public void onClick(View view) {
                 String groupName = editText.getText().toString();
-                if(groupName.equals("")){
+                if (groupName.equals("")) {
                     fragment.showToast("Invalid name");
-                }
-                else{
+                } else {
                     //TENTAR ENTRAR NO GRUPO
                     Group group = new Group(groupName);
                     FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
+                    fireBaseHandler.checkAndRightGroupOnDB();
                     fireBaseHandler.groupExists().doOnNext(exists -> {
                         if (exists == ResultMapper.EXISTS) {
                             Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
                             intent.putExtra(MainActivity.GROUP_NAME, groupName);
+                            intent.putExtra("Group", (Serializable) group);
                             fragment.startActivity(intent);
-                        } else if(exists == ResultMapper.CREATE){
+                        } else if (exists == ResultMapper.CREATE) {
                             fragment.showToast("O grupo não existe.");
-                        }
-                        else{
+                        } else {
                             fragment.showToast("An unexpected error occured");
                         }
                     }).subscribe();
