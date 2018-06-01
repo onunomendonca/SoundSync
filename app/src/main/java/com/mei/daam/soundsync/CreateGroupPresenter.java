@@ -22,9 +22,11 @@ public class CreateGroupPresenter {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextButton.setEnabled(false);
                 String groupName = editText.getText().toString();
                 if (groupName.equals("")) {
                     fragment.showToast("Invalid name. Choose a new name!");
+                    nextButton.setEnabled(true);
                 } else {
                     if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
                         Group group = new Group(groupName);
@@ -32,6 +34,7 @@ public class CreateGroupPresenter {
                         fireBaseHandler.checkAndRightGroupOnDB();
                         handleFirebaseResponse(fireBaseHandler, group);
                     } else {
+                        nextButton.setEnabled(true);
                         fragment.showToast("Network not available");
                     }
                 }
@@ -49,6 +52,7 @@ public class CreateGroupPresenter {
             } else {
                 fragment.showToast("An unexpected error occured");
             }
+            nextButton.setEnabled(true);
         }).subscribe();
     }
 
@@ -56,6 +60,7 @@ public class CreateGroupPresenter {
         Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
         intent.putExtra(MainActivity.GROUP_NAME, group.getName());
         intent.putExtra("Group", (Serializable) group);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return intent;
     }
 }

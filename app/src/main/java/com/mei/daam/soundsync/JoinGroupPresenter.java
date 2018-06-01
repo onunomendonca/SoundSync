@@ -27,6 +27,7 @@ public class JoinGroupPresenter {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextButton.setEnabled(false);
                 String groupName = editText.getText().toString();
                 if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
                     Group group = new Group(groupName);
@@ -35,6 +36,7 @@ public class JoinGroupPresenter {
                     handleFirebaseResponse(fireBaseHandler, group);
                 } else {
                     fragment.showToast("Network not available");
+                    nextButton.setEnabled(true);
                 }
             }
         });
@@ -50,6 +52,7 @@ public class JoinGroupPresenter {
             } else {
                 fragment.showToast("An unexpected error occured");
             }
+            nextButton.setEnabled(true);
         }).subscribe();
     }
 
@@ -57,6 +60,7 @@ public class JoinGroupPresenter {
         Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
         intent.putExtra(MainActivity.GROUP_NAME, group.getName());
         intent.putExtra("Group", (Serializable) group);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return intent;
     }
 }
