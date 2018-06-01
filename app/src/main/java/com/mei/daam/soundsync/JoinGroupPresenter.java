@@ -28,27 +28,35 @@ public class JoinGroupPresenter {
             @Override
             public void onClick(View view) {
                 String groupName = editText.getText().toString();
-                if (groupName.equals("")) {
-                    fragment.showToast("Invalid name");
-                } else {
-                    //TENTAR ENTRAR NO GRUPO
+                if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
                     Group group = new Group(groupName);
                     FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
                     fireBaseHandler.checkAndRightGroupOnDB();
-                    fireBaseHandler.groupExists().doOnNext(exists -> {
-                        if (exists == ResultMapper.EXISTS) {
-                            Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
-                            intent.putExtra(MainActivity.GROUP_NAME, groupName);
-                            intent.putExtra("Group", (Serializable) group);
-                            fragment.startActivity(intent);
-                        } else if (exists == ResultMapper.CREATE) {
-                            fragment.showToast("O grupo não existe.");
-                        } else {
-                            fragment.showToast("An unexpected error occured");
-                        }
-                    }).subscribe();
+                    handleFirebaseResponse(fireBaseHandler, group);
+                } else {
+                    fragment.showToast("Network not available");
                 }
             }
         });
+    }
+
+    private void handleFirebaseResponse(FireBaseHandler fireBaseHandler, Group group) {
+        fireBaseHandler.groupExists().doOnNext(exists -> {
+            if (exists == ResultMapper.EXISTS) {
+                Intent intent = createIntent(group);
+                fragment.startActivity(intent);
+            } else if (exists == ResultMapper.CREATE) {
+                fragment.showToast("This group doesn't exist");
+            } else {
+                fragment.showToast("An unexpected error occured");
+            }
+        }).subscribe();
+    }
+
+    private Intent createIntent(Group group) {
+        Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
+        intent.putExtra(MainActivity.GROUP_NAME, group.getName());
+        intent.putExtra("Group", (Serializable) group);
+        return intent;
     }
 }

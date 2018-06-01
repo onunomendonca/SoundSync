@@ -48,7 +48,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "AIzaSyDOTyfnF8eQDqSSGkhrRuX1xJZdrCaS9X4";
+    private final static String YOUTUBEKEY = "AIzaSyChFTqOfzPzq2AN1iWI3znJCAkjSAy9OGk";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -243,6 +243,40 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         youTubePlayerView.initialize(YOUTUBEKEY, this);
     }
 
+    public void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    //Presenter methods
+
+    public void musicSearched(String inputWord) {
+        musicSearchSubject.onNext(inputWord);
+    }
+
+    public void startThread() {
+        new HostYoutubeActivity.SearchVideo().execute();
+    }
+
+    public void setSearchedMusic(String musicSearchInput) {
+        searchedMusic = musicSearchInput;
+    }
+
+    public SearchResultObject getSearchResultObject() {
+        return searchResultObject;
+    }
+
+    public void setSearchResultObject(SearchResultObject searchResult) {
+        searchResultObject = searchResult;
+    }
+
+    public YouTubePlayer getYouTubePlayer() {
+        return m_youTubePlayer;
+    }
+
+    public boolean isStopped() {
+        return stopped;
+    }
+
     private class SearchVideo extends AsyncTask<Void, Void, SearchResultObject> {
         private ProgressDialog progressbar = new ProgressDialog(HostYoutubeActivity.this);
 
@@ -306,39 +340,5 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
                 searchResultSubject.onNext(s);
             }
         }
-    }
-
-    //Presenter methods
-
-    public void showToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-    public void musicSearched(String inputWord) {
-        musicSearchSubject.onNext(inputWord);
-    }
-
-    public void startThread() {
-        new HostYoutubeActivity.SearchVideo().execute();
-    }
-
-    public void setSearchedMusic(String musicSearchInput) {
-        searchedMusic = musicSearchInput;
-    }
-
-    public void setSearchResultObject(SearchResultObject searchResult) {
-        searchResultObject = searchResult;
-    }
-
-    public SearchResultObject getSearchResultObject() {
-        return searchResultObject;
-    }
-
-    public YouTubePlayer getYouTubePlayer() {
-        return m_youTubePlayer;
-    }
-
-    public boolean isStopped() {
-        return stopped;
     }
 }

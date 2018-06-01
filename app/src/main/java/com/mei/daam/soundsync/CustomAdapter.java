@@ -31,7 +31,6 @@ public class CustomAdapter extends BaseAdapter {
     private PublishSubject<String> dataChangeSubject;
 
     public CustomAdapter(Context context, Group group) {
-        //super(context, R.layout.single_list_app_item, utilsArrayList);
         this.context = context;
         this.musicList = new ArrayList<>();
         dataChangeSubject = PublishSubject.create();

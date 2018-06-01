@@ -26,23 +26,36 @@ public class CreateGroupPresenter {
                 if (groupName.equals("")) {
                     fragment.showToast("Invalid name. Choose a new name!");
                 } else {
-                    Group group = new Group(groupName);
-                    FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
-                    fireBaseHandler.checkAndRightGroupOnDB();
-                    fireBaseHandler.groupExists().doOnNext(exists -> {
-                        if (exists == ResultMapper.EXISTS) {
-                            fragment.showToast("Group already exists! Choose a new name! ");
-                        } else if (exists == ResultMapper.CREATE) {
-                            Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
-                            intent.putExtra(MainActivity.GROUP_NAME, groupName);
-                            intent.putExtra("Group", (Serializable) group);
-                            fragment.startActivity(intent);
-                        } else {
-                            fragment.showToast("An unexpected error occured");
-                        }
-                    }).subscribe();
+                    if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
+                        Group group = new Group(groupName);
+                        FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
+                        fireBaseHandler.checkAndRightGroupOnDB();
+                        handleFirebaseResponse(fireBaseHandler, group);
+                    } else {
+                        fragment.showToast("Network not available");
+                    }
                 }
             }
         });
+    }
+
+    private void handleFirebaseResponse(FireBaseHandler fireBaseHandler, Group group) {
+        fireBaseHandler.groupExists().doOnNext(exists -> {
+            if (exists == ResultMapper.EXISTS) {
+                fragment.showToast("Group already exists! Choose a new name! ");
+            } else if (exists == ResultMapper.CREATE) {
+                Intent intent = createIntent(group);
+                fragment.startActivity(intent);
+            } else {
+                fragment.showToast("An unexpected error occured");
+            }
+        }).subscribe();
+    }
+
+    private Intent createIntent(Group group) {
+        Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
+        intent.putExtra(MainActivity.GROUP_NAME, group.getName());
+        intent.putExtra("Group", (Serializable) group);
+        return intent;
     }
 }

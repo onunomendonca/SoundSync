@@ -3,6 +3,7 @@
     package="com.mei.daam.soundsync">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,12 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GuestYoutubeActivity"
+        <activity
+            android:name=".GuestYoutubeActivity"
             android:label="guestYoutube"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".HostYoutubeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HostYoutubeActivity"
             android:label="hostYoutube"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

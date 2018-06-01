@@ -33,8 +33,8 @@ public class FireBaseHandler {
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild(key)) {
                     //NO CASO DE JA EXISTIR O GRUPO NA BD.
-                    Log.d("TAG123", "Este " + key + " já existe... Nao foi criado um novo.");
                     groupExists.onNext(ResultMapper.EXISTS);
+                    Log.d("TAG123", "Este " + key + " já existe... Nao foi criado um novo.");
                 } else {
                     //Registar o novo grupo na base de dados dentro do grupo "groups"
                     myRef.setValue(group);
