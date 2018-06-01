@@ -23,6 +23,7 @@ public class CreateGroupPresenter {
             @Override
             public void onClick(View view) {
                 nextButton.setEnabled(false);
+                fragment.toggleProgressBar();
                 String groupName = editText.getText().toString();
                 if (groupName.equals("")) {
                     fragment.showToast("Invalid name. Choose a new name!");
@@ -35,6 +36,7 @@ public class CreateGroupPresenter {
                         handleFirebaseResponse(fireBaseHandler, group);
                     } else {
                         nextButton.setEnabled(true);
+                        fragment.toggleProgressBar();
                         fragment.showToast("Network not available");
                     }
                 }
@@ -53,6 +55,7 @@ public class CreateGroupPresenter {
                 fragment.showToast("An unexpected error occured");
             }
             nextButton.setEnabled(true);
+            fragment.toggleProgressBar();
         }).subscribe();
     }
 

@@ -28,6 +28,7 @@ public class JoinGroupPresenter {
             @Override
             public void onClick(View view) {
                 nextButton.setEnabled(false);
+                fragment.toggleProgressBar();
                 String groupName = editText.getText().toString();
                 if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
                     Group group = new Group(groupName);
@@ -37,6 +38,7 @@ public class JoinGroupPresenter {
                 } else {
                     fragment.showToast("Network not available");
                     nextButton.setEnabled(true);
+                    fragment.toggleProgressBar();
                 }
             }
         });
@@ -52,6 +54,7 @@ public class JoinGroupPresenter {
             } else {
                 fragment.showToast("An unexpected error occured");
             }
+            fragment.toggleProgressBar();
             nextButton.setEnabled(true);
         }).subscribe();
     }
