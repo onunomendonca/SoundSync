@@ -54,19 +54,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:layout_marginStart="52dp"
+        android:layout_marginEnd="64dp"
         android:text="@string/insert"
         android:textAllCaps="true"
         android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/name_of_group_join"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelinevertical" />
 
     <EditText
         android:id="@+id/name_of_group_join"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_marginBottom="32dp"
+        android:layout_marginEnd="52dp"
         android:layout_marginStart="52dp"
         android:backgroundTint="#ffffff"
         android:ems="13"
@@ -75,6 +76,7 @@
         android:textColor="#ffffff"
         android:textColorHint="#d3d3d3"
         app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button

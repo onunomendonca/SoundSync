@@ -48,7 +48,7 @@ import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
     //TODO
-    private final static String YOUTUBEKEY = "AIzaSyChFTqOfzPzq2AN1iWI3znJCAkjSAy9OGk";
+    private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private YouTubePlayerView youTubePlayerView;
@@ -223,7 +223,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HostYoutubeActivity.this)
-                .setTitle("Do you want to leave the group").setMessage("Are you sure you want to leave this group?");
+                .setTitle("Do you want to leave the group?").setMessage("Are you sure you want to leave this group?");
         builder.setPositiveButton("Leave", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
