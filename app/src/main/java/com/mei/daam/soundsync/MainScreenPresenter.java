@@ -25,13 +25,13 @@ public class MainScreenPresenter {
         novoGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentNavigator.navigateTo(new CreateGroupFragment(), true);
+                fragmentNavigator.navigateTo(new CreateGroupFragment());
             }
         });
         juntarGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentNavigator.navigateTo(new JoinGroupFragment(), true);
+                fragmentNavigator.navigateTo(new JoinGroupFragment());
             }
         });
     }

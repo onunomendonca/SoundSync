@@ -9,4 +9,5 @@
     <string name="join_group_screen_name">Join Group</string>
     <string name="name_of_group_str">Name of the group</string>
     <string name="add">Add</string>
+    <string name="song_name">Song Name</string>
 </resources>

@@ -8,13 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class JoinGroupFragment extends Fragment {
-//STILL NEEDS THE QRCODE AND NFC IMAGES
 
     private Button nextButton;
     private EditText editText;
+    private ProgressBar progressBar;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        progressBar = new ProgressBar(getContext());
+    }
 
     @Nullable
     @Override
@@ -27,6 +34,8 @@ public class JoinGroupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         editText = (EditText) view.findViewById(R.id.name_of_group_join);
         nextButton = (Button) view.findViewById(R.id.next_join_btn);
+        view.findViewById(R.id.nfc).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.qrcode).setVisibility(View.VISIBLE);
         new JoinGroupPresenter(this, nextButton, editText).setListeners();
     }
 

@@ -8,11 +8,11 @@
         android:id="@+id/videoThumbnail"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/soundsync" />
+        android:src="@drawable/logo_4" />
 
     <TextView
         android:id="@+id/videoName"
-        android:text="Song Name"
+        android:text="@string/song_name"
         android:textSize="14sp"
         android:layout_marginTop="8dp"
         android:maxLines="1"
