@@ -24,7 +24,7 @@ public class FireBaseHandler {
 
     //Method that checks if the group name already exists in the DB. If it exists, then gives an error
     //In case it doesn't exist, then create the group.
-    public void checkAndRightGroupOnDB() {
+    public void checkAndRightGroupOnDB(boolean isCreate) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
         DatabaseReference myRef = database.getReference(key);
@@ -37,7 +37,9 @@ public class FireBaseHandler {
                     Log.d("TAG123", "Este " + key + " já existe... Nao foi criado um novo.");
                 } else {
                     //Registar o novo grupo na base de dados dentro do grupo "groups"
-                    myRef.setValue(group);
+                    if (isCreate) {
+                        myRef.setValue(group);
+                    }
                     groupExists.onNext(ResultMapper.CREATE);
                     Log.d("TAG123", "Foi criado " + key + " com sucesso!");
                 }
