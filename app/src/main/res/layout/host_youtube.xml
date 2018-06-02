@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -47,16 +46,13 @@
     <ListView
         android:id="@+id/list_view_host"
         android:layout_width="match_parent"
-        android:layout_height="175dp"
-        android:layout_marginBottom="0dp"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="320dp"
         android:divider="#d3d3d3"
-        android:dividerHeight="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/add_button_host"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/youtube_view"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/no_video_img" />
 
     <ImageView
         android:id="@+id/no_video_img"
