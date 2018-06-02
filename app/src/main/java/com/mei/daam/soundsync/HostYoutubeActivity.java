@@ -114,7 +114,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         noVideoImage = (ImageView) findViewById(R.id.no_video_img);
         addButton = (Button) findViewById(R.id.add_button_host);
-
+        addButton.bringToFront();
         new HostYoutubePresenter(this, listView, listAdapter, addButton).present();
     }
 
