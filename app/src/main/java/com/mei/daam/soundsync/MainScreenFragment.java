@@ -21,17 +21,24 @@ public class MainScreenFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_screen,container,false);
+        return inflater.inflate(R.layout.main_screen, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //For the animated Background
 
         fragmentNavigator = ((MainActivity) getActivity()).getFragmentNavigator();
         novoGrupo = (Button) view.findViewById(R.id.novo_grupo_btn);
         juntarGrupo = (Button) view.findViewById(R.id.juntar_grupo_btn);
         new MainScreenPresenter(fragmentNavigator, novoGrupo, juntarGrupo).setListeners();
+    }
+
+    @Override
+    public void onDestroyView() {
+        fragmentNavigator = null;
+        novoGrupo = null;
+        juntarGrupo = null;
+        super.onDestroyView();
     }
 }

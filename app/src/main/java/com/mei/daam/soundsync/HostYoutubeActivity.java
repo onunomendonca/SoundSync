@@ -47,7 +47,7 @@ import static io.reactivex.subjects.PublishSubject.create;
  */
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
-    private final static String YOUTUBEKEY = "";
+    private final static String YOUTUBEKEY = "AIzaSyBAOqyy7QPh2i3TgbrpZP4w0RW5sTdxjd8";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private final static String ISFIRSTVIDEOKEY = "FIRSTVIDEO";
@@ -59,7 +59,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private String searchedMusic;
     private ListView listView;
     private SearchResultObject searchResultObject;
-    private YouTube youtube;
     private Button addButton;
     private boolean stopped = false;
     private String currentVideoId = "";
@@ -266,6 +265,20 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         builder.show();
     }
 
+    @Override
+    protected void onDestroy() {
+        groupNameTextView = null;
+        listView = null;
+        searchResultSubject = null;
+        musicSearchSubject = null;
+        youTubePlayerView = null;
+        noVideoImage = null;
+        addButton = null;
+        super.onDestroy();
+    }
+
+    //Presenter methods
+
     public void initializeYoutube() {
         youTubePlayerView.initialize(YOUTUBEKEY, this);
     }
@@ -273,8 +286,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     public void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
-
-    //Presenter methods
 
     public void musicSearched(String inputWord) {
         musicSearchSubject.onNext(inputWord);
@@ -317,7 +328,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         protected SearchResultObject doInBackground(Void... voids) {
             SearchResultObject m_searchResultObject = null;
             try {
-                youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
+                YouTube youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
                     public void initialize(HttpRequest request) throws IOException {
                     }
                 }).build();
@@ -335,16 +346,15 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
                 if (!searchResultList.isEmpty()) {
                     SearchResult result = searchResultList.get(0);
                     String videoId = result.getId().getVideoId();
-                    String eTag = result.getEtag();
                     SearchResultSnippet searchResultSnippet = result.getSnippet();
                     String name = searchResultSnippet.getTitle();
                     String channelTitle = searchResultSnippet.getChannelTitle();
                     if (!group.getMusicList().hasVideoId(videoId)) {
                         Music music = new Music(name, channelTitle, "https://img.youtube.com/vi/" + videoId + "/0.jpg", videoId);
                         group.getMusicList().addMusic(music);
-                        m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
+                        m_searchResultObject = new SearchResultObject(videoId, searchResultSnippet);
                     } else {
-                        m_searchResultObject = new SearchResultObject("-1", "-1", null);
+                        m_searchResultObject = new SearchResultObject("-1", null);
                     }
                 }
             } catch (GoogleJsonResponseException e) {

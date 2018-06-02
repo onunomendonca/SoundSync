@@ -46,4 +46,12 @@ public class CreateGroupFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        editText = null;
+        nextButton = null;
+        progressBar = null;
+        super.onDestroyView();
+    }
 }
