@@ -63,6 +63,7 @@ public class JoinGroupPresenter {
         Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
         intent.putExtra(MainActivity.GROUP_NAME, group.getName());
         intent.putExtra("Group", (Serializable) group);
+        intent.putExtra("isHost", false);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return intent;
     }

@@ -68,6 +68,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private Group group;
     private boolean firstVideo;
     private int currentVideoPosition;
+    private boolean isHost;
 
 
     @Override
@@ -89,6 +90,8 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
         Intent intent = getIntent();
         String groupName = intent.getStringExtra(MainActivity.GROUP_NAME);
+        isHost = intent.getBooleanExtra("isHost", false);
+
         if (firstVideo) {
             Toast.makeText(this, groupName, Toast.LENGTH_LONG).show();
         }
@@ -230,7 +233,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         currentVideoId = videoId;
         stopped = false;
         if (m_youTubePlayer != null) {
-            if (firstVideo) {
+            if (!isHost && firstVideo) {
                 m_youTubePlayer.cueVideo(videoId);
                 firstVideo = false;
             } else {
