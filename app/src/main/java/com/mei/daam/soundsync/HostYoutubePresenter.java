@@ -28,10 +28,20 @@ public class HostYoutubePresenter {
     }
 
     public void present() {
+        handleCreate();
         handleListViewClick();
         handleAddButtonClick();
         resultFromMusicSearch();
         resultFromSearchResult();
+    }
+
+    private void handleCreate() {
+        listAdapter.dataChangeSubjectResult()
+                .doOnNext(changed -> {
+                    if (activity.getYouTubePlayer() == null && listAdapter.getCount() > 0) {
+                        activity.initializeYoutube();
+                    }
+                }).subscribe();
     }
 
     private void handleListViewClick() {
@@ -96,7 +106,6 @@ public class HostYoutubePresenter {
                 if (activity.isStopped()) {
                     activity.loadVideo(activity.getSearchResultObject().getVideoId());
                 }
-                listAdapter.notifyDataSetChanged();
             }
         }
     }

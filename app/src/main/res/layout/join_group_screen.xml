@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:background="@drawable/first_layer"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:background="@drawable/first_layer">
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelinevertical"
@@ -20,6 +20,20 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="86dp"
+        android:layout_height="86dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_weight="2"
+        tools:visibility="visible" />
+
     <TextView
         android:id="@+id/create_new_group_txt"
         android:layout_width="wrap_content"
@@ -29,8 +43,8 @@
         android:layout_marginTop="48dp"
         android:text="@string/join_group_screen_name"
         android:textAllCaps="true"
-        android:textSize="25sp"
         android:textColor="#ffffff"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,19 +54,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:layout_marginStart="52dp"
+        android:layout_marginEnd="64dp"
         android:text="@string/insert"
         android:textAllCaps="true"
         android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/name_of_group_join"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelinevertical" />
 
     <EditText
         android:id="@+id/name_of_group_join"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_marginBottom="32dp"
+        android:layout_marginEnd="52dp"
         android:layout_marginStart="52dp"
         android:backgroundTint="#ffffff"
         android:ems="13"
@@ -61,6 +76,7 @@
         android:textColor="#ffffff"
         android:textColorHint="#d3d3d3"
         app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -72,37 +88,36 @@
         android:layout_marginStart="8dp"
         android:background="@drawable/oval_white_button"
         android:text="@string/join"
-        android:textSize="25sp"
         android:textColor="#ffffff"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="92dp"
-        android:layout_height="83dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/next_join_btn"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_of_group_join"
-        app:srcCompat="@drawable/nfc" />
-
-    <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/nfc"
         android:layout_width="77dp"
         android:layout_height="81dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginTop="8dp"
+        android:src="@drawable/nfc"
         app:layout_constraintBottom_toTopOf="@+id/next_join_btn"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelinevertical"
+        app:layout_constraintTop_toBottomOf="@+id/name_of_group_join"
+        app:layout_constraintVertical_bias="0.508"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/qrcode"
+        android:layout_width="90dp"
+        android:layout_height="81dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/qrcode"
+        app:layout_constraintBottom_toTopOf="@+id/next_join_btn"
         app:layout_constraintStart_toStartOf="@+id/guidelinevertical"
         app:layout_constraintTop_toBottomOf="@+id/name_of_group_join"
-        app:srcCompat="@drawable/qrcode" />
+        tools:visibility="visible" />
 </android.support.constraint.ConstraintLayout>

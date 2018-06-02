@@ -34,4 +34,22 @@ public class Music {
     public String getName() {
         return name;
     }
+
+    public Music(){}
+
+    public void setChannelTitle(String channelTitle) {
+        this.channelTitle = channelTitle;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
+    }
 }

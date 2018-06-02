@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.Serializable;
+
 /**
  * Created by D01 on 25/05/2018.
  */
@@ -25,28 +27,44 @@ public class JoinGroupPresenter {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextButton.setEnabled(false);
+                fragment.toggleProgressBar();
                 String groupName = editText.getText().toString();
-                if(groupName.equals("")){
-                    fragment.showToast("Invalid name");
-                }
-                else{
-                    //TENTAR ENTRAR NO GRUPO
+                if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
                     Group group = new Group(groupName);
                     FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
-                    fireBaseHandler.groupExists().doOnNext(exists -> {
-                        if (exists == ResultMapper.EXISTS) {
-                            Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
-                            intent.putExtra(MainActivity.GROUP_NAME, groupName);
-                            fragment.startActivity(intent);
-                        } else if(exists == ResultMapper.CREATE){
-                            fragment.showToast("O grupo não existe.");
-                        }
-                        else{
-                            fragment.showToast("An unexpected error occured");
-                        }
-                    }).subscribe();
+                    fireBaseHandler.checkAndRightGroupOnDB();
+                    handleFirebaseResponse(fireBaseHandler, group);
+                } else {
+                    fragment.showToast("Network not available");
+                    nextButton.setEnabled(true);
+                    fragment.toggleProgressBar();
                 }
             }
         });
+    }
+
+    private void handleFirebaseResponse(FireBaseHandler fireBaseHandler, Group group) {
+        fireBaseHandler.groupExists().doOnNext(exists -> {
+            if (exists == ResultMapper.EXISTS) {
+                Intent intent = createIntent(group);
+                fragment.startActivity(intent);
+            } else if (exists == ResultMapper.CREATE) {
+                fragment.showToast("This group doesn't exist");
+            } else {
+                fragment.showToast("An unexpected error occured");
+            }
+            fragment.toggleProgressBar();
+            nextButton.setEnabled(true);
+        }).subscribe();
+    }
+
+    private Intent createIntent(Group group) {
+        Intent intent = new Intent(fragment.getContext(), HostYoutubeActivity.class);
+        intent.putExtra(MainActivity.GROUP_NAME, group.getName());
+        intent.putExtra("Group", (Serializable) group);
+        intent.putExtra("isHost", false);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        return intent;
     }
 }
