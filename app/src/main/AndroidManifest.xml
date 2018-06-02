@@ -22,10 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GuestYoutubeActivity"
-            android:label="guestYoutube"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".HostYoutubeActivity"
             android:label="hostYoutube"
             android:screenOrientation="portrait" />

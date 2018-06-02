@@ -47,10 +47,11 @@ import static io.reactivex.subjects.PublishSubject.create;
  */
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
-    //TODO
-    private final static String YOUTUBEKEY = "";
+    private final static String YOUTUBEKEY = "AIzaSyChFTqOfzPzq2AN1iWI3znJCAkjSAy9OGk";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
+    private final static String ISFIRSTVIDEOKEY = "FIRSTVIDEO";
+    private final static String POSITIONKEY = "POSITION";
     private YouTubePlayerView youTubePlayerView;
     private PublishSubject<SearchResultObject> searchResultSubject;
     private PublishSubject<String> musicSearchSubject;
@@ -65,13 +66,22 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private ImageView noVideoImage;
     private TextView groupNameTextView;
     private Group group;
+    private boolean firstVideo;
+    private int currentVideoPosition;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.host_youtube);
+        if (savedInstanceState != null) {
+            firstVideo = savedInstanceState.getBoolean(ISFIRSTVIDEOKEY);
+            currentVideoPosition = savedInstanceState.getInt(POSITIONKEY);
+        } else {
+            firstVideo = true;
+            currentVideoPosition = -1;
+        }
 
+        setContentView(R.layout.host_youtube);
         getWindow().setBackgroundDrawableResource(R.drawable.background_blurred);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(R.drawable.first_layer);
@@ -79,8 +89,9 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
         Intent intent = getIntent();
         String groupName = intent.getStringExtra(MainActivity.GROUP_NAME);
-        Toast.makeText(this, groupName, Toast.LENGTH_LONG).show();
-
+        if (firstVideo) {
+            Toast.makeText(this, groupName, Toast.LENGTH_LONG).show();
+        }
         group = (Group) intent.getSerializableExtra("Group");
 
         groupNameTextView = (TextView) findViewById(R.id.group_name);
@@ -105,80 +116,87 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putBoolean(ISFIRSTVIDEOKEY, firstVideo);
+        bundle.putInt(POSITIONKEY, currentVideoPosition);
+    }
+
+    @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
-        if (!restored) {
-            noVideoImage.setVisibility(View.GONE);
-            youTubePlayerView.setVisibility(View.VISIBLE);
-            m_youTubePlayer = youTubePlayer;
-            if (group.getMusicList().getCount() > 0 && currentVideoId.equals("")) {
-                loadVideo(group.getMusicList().getVideoId(0));
-            }
-            if (searchResultObject != null) {
-                loadVideo(searchResultObject.getVideoId());
-            }
-            m_youTubePlayer.setPlaybackEventListener(new PlaybackEventListener() {
-                @Override
-                public void onPlaying() {
-                    stopped = false;
-                }
-
-                @Override
-                public void onPaused() {
-
-                }
-
-                @Override
-                public void onStopped() {
-
-                }
-
-                @Override
-                public void onBuffering(boolean b) {
-
-                }
-
-                @Override
-                public void onSeekTo(int i) {
-
-                }
-            });
-            m_youTubePlayer.setPlayerStateChangeListener(new PlayerStateChangeListener() {
-                @Override
-                public void onLoading() {
-
-                }
-
-                @Override
-                public void onLoaded(String s) {
-
-                }
-
-                @Override
-                public void onAdStarted() {
-
-                }
-
-                @Override
-                public void onVideoStarted() {
-                    stopped = false;
-                }
-
-                @Override
-                public void onVideoEnded() {
-                    stopped = true;
-                    int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId) + 1;
-                    if (nextPosition <= group.getMusicList().getCount() - 1) {
-                        loadVideo(group.getMusicList().getVideoId(nextPosition));
-                        stopped = false;
-                    }
-                }
-
-                @Override
-                public void onError(ErrorReason errorReason) {
-
-                }
-            });
+        noVideoImage.setVisibility(View.GONE);
+        youTubePlayerView.setVisibility(View.VISIBLE);
+        m_youTubePlayer = youTubePlayer;
+        if (currentVideoPosition != -1) {
+            loadVideo(group.getMusicList().getVideoId(currentVideoPosition));
+        } else if (group.getMusicList().getCount() > 0 && currentVideoId.equals("")) {
+            loadVideo(group.getMusicList().getVideoId(0));
+        } else if (searchResultObject != null) {
+            loadVideo(searchResultObject.getVideoId());
         }
+        m_youTubePlayer.setPlaybackEventListener(new PlaybackEventListener() {
+            @Override
+            public void onPlaying() {
+                stopped = false;
+            }
+
+            @Override
+            public void onPaused() {
+
+            }
+
+            @Override
+            public void onStopped() {
+
+            }
+
+            @Override
+            public void onBuffering(boolean b) {
+
+            }
+
+            @Override
+            public void onSeekTo(int i) {
+
+            }
+        });
+        m_youTubePlayer.setPlayerStateChangeListener(new PlayerStateChangeListener() {
+            @Override
+            public void onLoading() {
+
+            }
+
+            @Override
+            public void onLoaded(String s) {
+
+            }
+
+            @Override
+            public void onAdStarted() {
+
+            }
+
+            @Override
+            public void onVideoStarted() {
+                stopped = false;
+            }
+
+            @Override
+            public void onVideoEnded() {
+                stopped = true;
+                int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId) + 1;
+                if (nextPosition <= group.getMusicList().getCount() - 1) {
+                    loadVideo(group.getMusicList().getVideoId(nextPosition));
+                    stopped = false;
+                }
+            }
+
+            @Override
+            public void onError(ErrorReason errorReason) {
+
+            }
+        });
+
     }
 
     @Override
@@ -212,10 +230,16 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         currentVideoId = videoId;
         stopped = false;
         if (m_youTubePlayer != null) {
-            m_youTubePlayer.loadVideo(videoId);
+            if (firstVideo) {
+                m_youTubePlayer.cueVideo(videoId);
+                firstVideo = false;
+            } else {
+                m_youTubePlayer.loadVideo(videoId);
+            }
         } else {
             initializeYoutube();
         }
+        currentVideoPosition = group.getMusicList().getPositionVideoId(videoId);
         group.getMusicList().setSelectedItem(group.getMusicList().getPositionVideoId(videoId));
         group.getMusicList().notifyDataSetChanged();
     }
