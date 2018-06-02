@@ -47,7 +47,7 @@ import static io.reactivex.subjects.PublishSubject.create;
  */
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
-    private final static String YOUTUBEKEY = "AIzaSyChFTqOfzPzq2AN1iWI3znJCAkjSAy9OGk";
+    private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private final static String ISFIRSTVIDEOKEY = "FIRSTVIDEO";

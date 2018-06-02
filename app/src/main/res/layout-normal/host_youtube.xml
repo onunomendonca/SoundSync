@@ -46,7 +46,7 @@
     <ListView
         android:id="@+id/list_view_host"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="185dp"
         android:layout_marginBottom="0dp"
         android:divider="#d3d3d3"
         android:dividerHeight="0dp"
