@@ -60,7 +60,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private ListView listView;
     private SearchResultObject searchResultObject;
     private Button addButton;
-    private boolean stopped = false;
     private String currentVideoId = "";
     private ImageView noVideoImage;
     private TextView groupNameTextView;
@@ -139,7 +138,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         m_youTubePlayer.setPlaybackEventListener(new PlaybackEventListener() {
             @Override
             public void onPlaying() {
-                stopped = false;
+
             }
 
             @Override
@@ -180,18 +179,16 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
             @Override
             public void onVideoStarted() {
-                stopped = false;
+
             }
 
             @Override
             public void onVideoEnded() {
-                stopped = true;
-                int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId, false) + 1;
+                int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId) + 1;
                 int musicListSize = group.getMusicList().getCount();
                 if (nextPosition < musicListSize) {
                     loadVideo(group.getMusicList().getVideoId(nextPosition));
-                    stopped = false;
-                }else if(musicListSize > 0){
+                } else if (musicListSize > 0) {
                     loadVideo(group.getMusicList().getVideoId(0));
                 }
             }
@@ -233,8 +230,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
     public void loadVideo(String videoId) {
         currentVideoId = videoId;
-        boolean wasStopped = stopped;
-        stopped = false;
         if (m_youTubePlayer != null) {
             if (!isHost && firstVideo) {
                 m_youTubePlayer.cueVideo(videoId);
@@ -245,7 +240,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         } else {
             initializeYoutube();
         }
-        currentVideoPosition = group.getMusicList().getPositionVideoId(videoId, wasStopped);
+        currentVideoPosition = group.getMusicList().getPositionVideoId(videoId);
         group.getMusicList().setSelectedItem(currentVideoPosition);
         group.getMusicList().notifyDataSetChanged();
     }
@@ -313,10 +308,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
     public YouTubePlayer getYouTubePlayer() {
         return m_youTubePlayer;
-    }
-
-    public boolean isStopped() {
-        return stopped;
     }
 
     private class SearchVideo extends AsyncTask<Void, Void, SearchResultObject> {

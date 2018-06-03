@@ -102,10 +102,6 @@ public class HostYoutubePresenter {
         } else {
             if (activity.getYouTubePlayer() == null) {
                 activity.initializeYoutube();
-            } else {
-                if (activity.isStopped()) {
-                    activity.loadVideo(activity.getSearchResultObject().getVideoId());
-                }
             }
         }
     }

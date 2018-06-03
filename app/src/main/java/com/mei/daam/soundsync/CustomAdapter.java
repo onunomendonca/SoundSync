@@ -113,13 +113,10 @@ public class CustomAdapter extends BaseAdapter {
         return false;
     }
 
-    public int getPositionVideoId(String videoId, boolean wasStopped) {
+    public int getPositionVideoId(String videoId) {
         for (int i = 0; i < musicList.size(); i++) {
             if (musicList.get(i).getVideoId().equals(videoId))
                 return i;
-        }
-        if (wasStopped) {
-            return selectedItem + 1;
         }
         if (musicList.size() > selectedItem) {
             return selectedItem - 1;
