@@ -9,10 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-/**
- * Created by D01 on 25/05/2018.
- */
-
 public class HostYoutubePresenter {
     private final HostYoutubeActivity activity;
     private final ListView listView;

@@ -2,10 +2,6 @@ package com.mei.daam.soundsync;
 
 import com.google.api.services.youtube.model.SearchResultSnippet;
 
-/**
- * Created by D01 on 30/03/2018.
- */
-
 public class SearchResultObject {
 
     private String videoId;

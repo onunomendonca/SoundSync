@@ -5,8 +5,6 @@ import java.io.Serializable;
 public class Group implements Serializable {
 
     private String name;
-    private FireBaseHandler fbhandler;
-    //LISTA de Músicas
     private CustomAdapter musicList;
 
 

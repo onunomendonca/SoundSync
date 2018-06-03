@@ -8,10 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-/**
- * Created by D01 on 26/03/2018.
- */
-
 public class MainScreenFragment extends Fragment {
 
     private Button novoGrupo;

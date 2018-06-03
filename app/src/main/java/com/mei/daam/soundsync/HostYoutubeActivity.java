@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.SearchResultSnippet;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -41,10 +43,6 @@ import static com.google.android.youtube.player.YouTubePlayer.PlaybackEventListe
 import static com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import static com.google.android.youtube.player.YouTubePlayer.Provider;
 import static io.reactivex.subjects.PublishSubject.create;
-
-/**
- * Created by D01 on 26/03/2018.
- */
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
     private final static String YOUTUBEKEY = "";
@@ -116,6 +114,27 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         addButton = (Button) findViewById(R.id.add_button_host);
         addButton.bringToFront();
         new HostYoutubePresenter(this, listView, listAdapter, addButton).present();
+
+        addPeopleToGroupListener();
+    }
+
+
+
+    public void addPeopleToGroupListener() {
+
+        ImageButton imageButton = (ImageButton) findViewById(R.id.sound_sync_img);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(HostYoutubeActivity.this, Pop.class);
+                intent.putExtra(MainActivity.GROUP_NAME, group.getName());
+                startActivity(intent);
+            }
+
+        });
+
     }
 
     @Override
@@ -367,5 +386,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
                 searchResultSubject.onNext(s);
             }
         }
+
+
     }
 }
