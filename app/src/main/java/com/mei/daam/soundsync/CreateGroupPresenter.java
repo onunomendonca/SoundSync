@@ -28,6 +28,7 @@ public class CreateGroupPresenter {
                 if (groupName.equals("")) {
                     fragment.showToast("Invalid name. Choose a new name!");
                     nextButton.setEnabled(true);
+                    fragment.toggleProgressBar();
                 } else {
                     if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
                         Group group = new Group(groupName);
