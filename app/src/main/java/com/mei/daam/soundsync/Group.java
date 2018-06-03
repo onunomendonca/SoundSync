@@ -7,11 +7,9 @@ public class Group implements Serializable {
     private String name;
     private CustomAdapter musicList;
 
-
     public Group(String name) {
         this.name = name;
     }
-
 
     public String getName() {
         return name;

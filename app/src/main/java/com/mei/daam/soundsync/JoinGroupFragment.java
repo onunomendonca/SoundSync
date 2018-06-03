@@ -54,4 +54,11 @@ public class JoinGroupFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        editText = null;
+        nextButton = null;
+        progressBar = null;
+        super.onDestroyView();
+    }
 }

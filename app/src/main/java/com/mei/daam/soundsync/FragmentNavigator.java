@@ -15,11 +15,8 @@ public class FragmentNavigator {
         this.containerId = containerId;
     }
 
-    /**
-     * Only use this method when it is navigating to the first fragment in the activity.
-     */
     public void navigateToWithoutBackSave(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();//setAnimation
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction = fragmentTransaction.replace(containerId, fragment);
         fragmentTransaction.commit();
@@ -33,7 +30,6 @@ public class FragmentNavigator {
     public void navigateTo(Fragment fragment) {
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                //setAnimation
                 .addToBackStack(null);
 
         fragmentTransaction = fragmentTransaction.replace(containerId, fragment);

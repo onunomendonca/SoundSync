@@ -57,7 +57,7 @@ public class JoinGroupPresenter {
         if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
             Group group = new Group(groupName);
             FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
-            fireBaseHandler.checkAndRightGroupOnDB();
+            fireBaseHandler.checkAndRightGroupOnDB(false);
             handleFirebaseResponse(fireBaseHandler, group);
         } else {
             fragment.showToast("Network not available");
