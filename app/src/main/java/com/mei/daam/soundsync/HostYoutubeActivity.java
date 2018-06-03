@@ -31,7 +31,6 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.SearchResultSnippet;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -67,6 +66,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private boolean firstVideo;
     private int currentVideoPosition;
     private boolean isHost;
+    private ImageButton imageButton;
 
 
     @Override
@@ -113,29 +113,12 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         noVideoImage = (ImageView) findViewById(R.id.no_video_img);
         addButton = (Button) findViewById(R.id.add_button_host);
         addButton.bringToFront();
-        new HostYoutubePresenter(this, listView, listAdapter, addButton).present();
 
-        addPeopleToGroupListener();
-    }
-
-
-
-    public void addPeopleToGroupListener() {
-
-        ImageButton imageButton = (ImageButton) findViewById(R.id.sound_sync_img);
-
-        imageButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(HostYoutubeActivity.this, Pop.class);
-                intent.putExtra(MainActivity.GROUP_NAME, group.getName());
-                startActivity(intent);
-            }
-
-        });
+        imageButton = (ImageButton) findViewById(R.id.sound_sync_img);
+        new HostYoutubePresenter(this, listView, listAdapter, addButton, imageButton, group.getName()).present();
 
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
@@ -386,7 +369,5 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
                 searchResultSubject.onNext(s);
             }
         }
-
-
     }
 }

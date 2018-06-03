@@ -21,19 +21,19 @@
 
         app:layout_constraintGuide_percent="0.5" />
 
-    <ImageButton android:id="@+id/sound_sync_img"
-        android:src="@drawable/logo_4"
+    <ImageButton
+        android:id="@+id/sound_sync_img"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:visibility="visible"
         android:adjustViewBounds="true"
-        android:scaleType="centerInside"
         android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/logo_4"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/add_button_host"

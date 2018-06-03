@@ -1,20 +1,16 @@
 package com.mei.daam.soundsync;
 
 import android.content.Intent;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import java.io.Serializable;
 
-public class JoinGroupPresenter extends AppCompatActivity {
+public class JoinGroupPresenter {
     private final JoinGroupFragment fragment;
     private final Button nextButton;
     private final EditText editText;
@@ -48,23 +44,14 @@ public class JoinGroupPresenter extends AppCompatActivity {
                 intentIntegrator.initiateScan();
             }
         });
+        handleQrCode();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        if(result != null){
-            if(result.getContents() == null){
-                fragment.showToast("You cancelled the scanning!");
-            }else{
-                tryToConnect(result.getContents());
-            }
-        }else{
-            super.onActivityResult(requestCode,resultCode,data);
-        }
+    private void handleQrCode() {
+        ((MainActivity) fragment.getActivity()).contentSubjectResult().doOnNext(result -> tryToConnect(result)).subscribe();
     }
 
-    private void tryToConnect(String groupName){
+    private void tryToConnect(String groupName) {
         nextButton.setEnabled(false);
         fragment.toggleProgressBar();
         if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
