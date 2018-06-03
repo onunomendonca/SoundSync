@@ -54,7 +54,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Use the QR Code on the Join window to use this code"
+        android:text="Your friends can scan the QR Code on the Join window to connect to this group!"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/image"
         app:layout_constraintEnd_toEndOf="parent"

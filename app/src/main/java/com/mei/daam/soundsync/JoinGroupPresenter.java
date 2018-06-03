@@ -54,16 +54,21 @@ public class JoinGroupPresenter {
     private void tryToConnect(String groupName) {
         nextButton.setEnabled(false);
         fragment.toggleProgressBar();
-        if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
-            Group group = new Group(groupName);
-            FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
-            fireBaseHandler.checkAndRightGroupOnDB(false);
-            handleFirebaseResponse(fireBaseHandler, group);
-        } else {
-            fragment.showToast("Network not available");
-            nextButton.setEnabled(true);
+        if(groupName.equals("")) {
+            fragment.showToast("Please insert a group name!");
             fragment.toggleProgressBar();
+        }else {
+            if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
+                Group group = new Group(groupName);
+                FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
+                fireBaseHandler.checkAndRightGroupOnDB(false);
+                handleFirebaseResponse(fireBaseHandler, group);
+            } else {
+                fragment.showToast("Network not available");
+                fragment.toggleProgressBar();
+            }
         }
+        nextButton.setEnabled(true);
     }
 
     private void handleFirebaseResponse(FireBaseHandler fireBaseHandler, Group group) {
