@@ -46,7 +46,7 @@ import static io.reactivex.subjects.PublishSubject.create;
  * Created by D01 on 26/03/2018.
  */
 
-public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
+public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener {
     private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
@@ -187,9 +187,12 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
             public void onVideoEnded() {
                 stopped = true;
                 int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId, false) + 1;
-                if (nextPosition <= group.getMusicList().getCount() - 1) {
+                int musicListSize = group.getMusicList().getCount();
+                if (nextPosition < musicListSize) {
                     loadVideo(group.getMusicList().getVideoId(nextPosition));
                     stopped = false;
+                }else if(musicListSize > 0){
+                    loadVideo(group.getMusicList().getVideoId(0));
                 }
             }
 
@@ -212,7 +215,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 1) {
-            getYoutubePlayerProvider().initialize(YOUTUBEKEY, this); //Insert correct key
+            getYoutubePlayerProvider().initialize(YOUTUBEKEY, this);
         }
     }
 
