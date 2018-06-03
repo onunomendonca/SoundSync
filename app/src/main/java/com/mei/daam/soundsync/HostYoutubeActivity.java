@@ -47,7 +47,7 @@ import static io.reactivex.subjects.PublishSubject.create;
  */
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
-    private final static String YOUTUBEKEY = "AIzaSyBAOqyy7QPh2i3TgbrpZP4w0RW5sTdxjd8";
+    private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private final static String ISFIRSTVIDEOKEY = "FIRSTVIDEO";
@@ -186,7 +186,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
             @Override
             public void onVideoEnded() {
                 stopped = true;
-                int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId) + 1;
+                int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId, false) + 1;
                 if (nextPosition <= group.getMusicList().getCount() - 1) {
                     loadVideo(group.getMusicList().getVideoId(nextPosition));
                     stopped = false;
@@ -230,6 +230,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
     public void loadVideo(String videoId) {
         currentVideoId = videoId;
+        boolean wasStopped = stopped;
         stopped = false;
         if (m_youTubePlayer != null) {
             if (!isHost && firstVideo) {
@@ -241,8 +242,8 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         } else {
             initializeYoutube();
         }
-        currentVideoPosition = group.getMusicList().getPositionVideoId(videoId);
-        group.getMusicList().setSelectedItem(group.getMusicList().getPositionVideoId(videoId));
+        currentVideoPosition = group.getMusicList().getPositionVideoId(videoId, wasStopped);
+        group.getMusicList().setSelectedItem(currentVideoPosition);
         group.getMusicList().notifyDataSetChanged();
     }
 
