@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,10 +43,6 @@ import static com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeL
 import static com.google.android.youtube.player.YouTubePlayer.Provider;
 import static io.reactivex.subjects.PublishSubject.create;
 
-/**
- * Created by D01 on 26/03/2018.
- */
-
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener {
     private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
@@ -67,6 +64,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private boolean firstVideo;
     private int currentVideoPosition;
     private boolean isHost;
+    private ImageButton imageButton;
 
 
     @Override
@@ -113,7 +111,10 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         noVideoImage = (ImageView) findViewById(R.id.no_video_img);
         addButton = (Button) findViewById(R.id.add_button_host);
         addButton.bringToFront();
-        new HostYoutubePresenter(this, listView, listAdapter, addButton).present();
+
+        imageButton = (ImageButton) findViewById(R.id.sound_sync_img);
+        new HostYoutubePresenter(this, listView, listAdapter, addButton, imageButton, group.getName()).present();
+
     }
 
     @Override

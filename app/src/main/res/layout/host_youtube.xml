@@ -21,10 +21,13 @@
 
         app:layout_constraintGuide_percent="0.5" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/sound_sync_img"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="centerInside"
         android:src="@drawable/logo_4"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"

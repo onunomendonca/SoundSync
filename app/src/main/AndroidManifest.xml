@@ -25,6 +25,9 @@
             android:name=".HostYoutubeActivity"
             android:label="hostYoutube"
             android:screenOrientation="portrait" />
+        <activity android:name=".Pop"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
     </application>
 
 </manifest>

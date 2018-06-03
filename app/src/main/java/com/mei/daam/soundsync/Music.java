@@ -1,9 +1,5 @@
 package com.mei.daam.soundsync;
 
-/**
- * Created by D01 on 21/04/2018.
- */
-
 public class Music {
 
     private String name;
