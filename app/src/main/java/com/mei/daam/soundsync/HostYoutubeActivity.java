@@ -46,8 +46,8 @@ import static io.reactivex.subjects.PublishSubject.create;
  * Created by D01 on 26/03/2018.
  */
 
-public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener { //Implements Listeners here
-    private final static String YOUTUBEKEY = "AIzaSyChFTqOfzPzq2AN1iWI3znJCAkjSAy9OGk";
+public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener {
+    private final static String YOUTUBEKEY = "";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private final static String ISFIRSTVIDEOKEY = "FIRSTVIDEO";
@@ -59,9 +59,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private String searchedMusic;
     private ListView listView;
     private SearchResultObject searchResultObject;
-    private YouTube youtube;
     private Button addButton;
-    private boolean stopped = false;
     private String currentVideoId = "";
     private ImageView noVideoImage;
     private TextView groupNameTextView;
@@ -114,7 +112,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         noVideoImage = (ImageView) findViewById(R.id.no_video_img);
         addButton = (Button) findViewById(R.id.add_button_host);
-
+        addButton.bringToFront();
         new HostYoutubePresenter(this, listView, listAdapter, addButton).present();
     }
 
@@ -140,7 +138,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         m_youTubePlayer.setPlaybackEventListener(new PlaybackEventListener() {
             @Override
             public void onPlaying() {
-                stopped = false;
+
             }
 
             @Override
@@ -181,16 +179,17 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
             @Override
             public void onVideoStarted() {
-                stopped = false;
+
             }
 
             @Override
             public void onVideoEnded() {
-                stopped = true;
                 int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId) + 1;
-                if (nextPosition <= group.getMusicList().getCount() - 1) {
+                int musicListSize = group.getMusicList().getCount();
+                if (nextPosition < musicListSize) {
                     loadVideo(group.getMusicList().getVideoId(nextPosition));
-                    stopped = false;
+                } else if (musicListSize > 0) {
+                    loadVideo(group.getMusicList().getVideoId(0));
                 }
             }
 
@@ -213,7 +212,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 1) {
-            getYoutubePlayerProvider().initialize(YOUTUBEKEY, this); //Insert correct key
+            getYoutubePlayerProvider().initialize(YOUTUBEKEY, this);
         }
     }
 
@@ -231,7 +230,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
     public void loadVideo(String videoId) {
         currentVideoId = videoId;
-        stopped = false;
         if (m_youTubePlayer != null) {
             if (!isHost && firstVideo) {
                 m_youTubePlayer.cueVideo(videoId);
@@ -243,7 +241,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
             initializeYoutube();
         }
         currentVideoPosition = group.getMusicList().getPositionVideoId(videoId);
-        group.getMusicList().setSelectedItem(group.getMusicList().getPositionVideoId(videoId));
+        group.getMusicList().setSelectedItem(currentVideoPosition);
         group.getMusicList().notifyDataSetChanged();
     }
 
@@ -266,6 +264,20 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         builder.show();
     }
 
+    @Override
+    protected void onDestroy() {
+        groupNameTextView = null;
+        listView = null;
+        searchResultSubject = null;
+        musicSearchSubject = null;
+        youTubePlayerView = null;
+        noVideoImage = null;
+        addButton = null;
+        super.onDestroy();
+    }
+
+    //Presenter methods
+
     public void initializeYoutube() {
         youTubePlayerView.initialize(YOUTUBEKEY, this);
     }
@@ -273,8 +285,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     public void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
-
-    //Presenter methods
 
     public void musicSearched(String inputWord) {
         musicSearchSubject.onNext(inputWord);
@@ -300,10 +310,6 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         return m_youTubePlayer;
     }
 
-    public boolean isStopped() {
-        return stopped;
-    }
-
     private class SearchVideo extends AsyncTask<Void, Void, SearchResultObject> {
         private ProgressDialog progressbar = new ProgressDialog(HostYoutubeActivity.this);
 
@@ -317,7 +323,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         protected SearchResultObject doInBackground(Void... voids) {
             SearchResultObject m_searchResultObject = null;
             try {
-                youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
+                YouTube youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
                     public void initialize(HttpRequest request) throws IOException {
                     }
                 }).build();
@@ -335,16 +341,15 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
                 if (!searchResultList.isEmpty()) {
                     SearchResult result = searchResultList.get(0);
                     String videoId = result.getId().getVideoId();
-                    String eTag = result.getEtag();
                     SearchResultSnippet searchResultSnippet = result.getSnippet();
                     String name = searchResultSnippet.getTitle();
                     String channelTitle = searchResultSnippet.getChannelTitle();
                     if (!group.getMusicList().hasVideoId(videoId)) {
                         Music music = new Music(name, channelTitle, "https://img.youtube.com/vi/" + videoId + "/0.jpg", videoId);
                         group.getMusicList().addMusic(music);
-                        m_searchResultObject = new SearchResultObject(videoId, eTag, searchResultSnippet);
+                        m_searchResultObject = new SearchResultObject(videoId, searchResultSnippet);
                     } else {
-                        m_searchResultObject = new SearchResultObject("-1", "-1", null);
+                        m_searchResultObject = new SearchResultObject("-1", null);
                     }
                 }
             } catch (GoogleJsonResponseException e) {

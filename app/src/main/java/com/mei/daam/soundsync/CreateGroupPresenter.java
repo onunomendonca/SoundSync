@@ -32,7 +32,7 @@ public class CreateGroupPresenter {
                     if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
                         Group group = new Group(groupName);
                         FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
-                        fireBaseHandler.checkAndRightGroupOnDB();
+                        fireBaseHandler.checkAndRightGroupOnDB(true);
                         handleFirebaseResponse(fireBaseHandler, group);
                     } else {
                         nextButton.setEnabled(true);
