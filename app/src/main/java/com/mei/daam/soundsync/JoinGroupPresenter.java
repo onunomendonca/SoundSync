@@ -4,44 +4,71 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.io.Serializable;
-
-/**
- * Created by D01 on 25/05/2018.
- */
 
 public class JoinGroupPresenter {
     private final JoinGroupFragment fragment;
     private final Button nextButton;
     private final EditText editText;
+    private final ImageButton qrCodeButton;
 
-    public JoinGroupPresenter(JoinGroupFragment fragment, Button nextButton, EditText editText) {
+    public JoinGroupPresenter(JoinGroupFragment fragment, Button nextButton, EditText editText, ImageButton qrCodeButton) {
 
         this.fragment = fragment;
         this.nextButton = nextButton;
         this.editText = editText;
+        this.qrCodeButton = qrCodeButton;
     }
 
     public void setListeners() {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextButton.setEnabled(false);
-                fragment.toggleProgressBar();
                 String groupName = editText.getText().toString();
-                if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
-                    Group group = new Group(groupName);
-                    FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
-                    fireBaseHandler.checkAndRightGroupOnDB(false);
-                    handleFirebaseResponse(fireBaseHandler, group);
-                } else {
-                    fragment.showToast("Network not available");
-                    nextButton.setEnabled(true);
-                    fragment.toggleProgressBar();
-                }
+                tryToConnect(groupName);
             }
         });
+        qrCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentIntegrator intentIntegrator = new IntentIntegrator(fragment.getActivity());
+                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+                intentIntegrator.setPrompt("Scan");
+                intentIntegrator.setCameraId(0);
+                intentIntegrator.setBeepEnabled(false);
+                intentIntegrator.setBarcodeImageEnabled(false);
+                intentIntegrator.initiateScan();
+            }
+        });
+        handleQrCode();
+    }
+
+    private void handleQrCode() {
+        ((MainActivity) fragment.getActivity()).contentSubjectResult().doOnNext(result -> tryToConnect(result)).subscribe();
+    }
+
+    private void tryToConnect(String groupName) {
+        nextButton.setEnabled(false);
+        fragment.toggleProgressBar();
+        if(groupName.equals("")) {
+            fragment.showToast("Please insert a group name!");
+            fragment.toggleProgressBar();
+        }else {
+            if (ConnectionHandler.hasNetworkConnection(fragment.getContext())) {
+                Group group = new Group(groupName);
+                FireBaseHandler fireBaseHandler = new FireBaseHandler(group);
+                fireBaseHandler.checkAndRightGroupOnDB(false);
+                handleFirebaseResponse(fireBaseHandler, group);
+            } else {
+                fragment.showToast("Network not available");
+                fragment.toggleProgressBar();
+            }
+        }
+        nextButton.setEnabled(true);
     }
 
     private void handleFirebaseResponse(FireBaseHandler fireBaseHandler, Group group) {

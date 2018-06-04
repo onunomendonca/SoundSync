@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,12 +43,8 @@ import static com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeL
 import static com.google.android.youtube.player.YouTubePlayer.Provider;
 import static io.reactivex.subjects.PublishSubject.create;
 
-/**
- * Created by D01 on 26/03/2018.
- */
-
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener {
-    private final static String YOUTUBEKEY = "";
+    private final static String YOUTUBEKEY = "AIzaSyAxl6aQsAQKTXV8LtMxiVmCwjYxGofeUEU";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private final static String ISFIRSTVIDEOKEY = "FIRSTVIDEO";
@@ -64,9 +61,11 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
     private ImageView noVideoImage;
     private TextView groupNameTextView;
     private Group group;
+    private boolean stopped = false;
     private boolean firstVideo;
     private int currentVideoPosition;
     private boolean isHost;
+    private ImageButton imageButton;
 
 
     @Override
@@ -113,7 +112,10 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         noVideoImage = (ImageView) findViewById(R.id.no_video_img);
         addButton = (Button) findViewById(R.id.add_button_host);
         addButton.bringToFront();
-        new HostYoutubePresenter(this, listView, listAdapter, addButton).present();
+
+        imageButton = (ImageButton) findViewById(R.id.sound_sync_img);
+        new HostYoutubePresenter(this, listView, listAdapter, addButton, imageButton, group.getName()).present();
+
     }
 
     @Override
@@ -138,7 +140,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
         m_youTubePlayer.setPlaybackEventListener(new PlaybackEventListener() {
             @Override
             public void onPlaying() {
-
+                stopped = false;
             }
 
             @Override
@@ -179,17 +181,20 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
             @Override
             public void onVideoStarted() {
-
+                stopped = false;
             }
 
             @Override
             public void onVideoEnded() {
+                stopped = true;
                 int nextPosition = group.getMusicList().getPositionVideoId(currentVideoId) + 1;
                 int musicListSize = group.getMusicList().getCount();
                 if (nextPosition < musicListSize) {
                     loadVideo(group.getMusicList().getVideoId(nextPosition));
+                    stopped = false;
                 } else if (musicListSize > 0) {
                     loadVideo(group.getMusicList().getVideoId(0));
+                    stopped = false;
                 }
             }
 
@@ -230,6 +235,7 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
     public void loadVideo(String videoId) {
         currentVideoId = videoId;
+        stopped = false;
         if (m_youTubePlayer != null) {
             if (!isHost && firstVideo) {
                 m_youTubePlayer.cueVideo(videoId);
@@ -241,6 +247,9 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
             initializeYoutube();
         }
         currentVideoPosition = group.getMusicList().getPositionVideoId(videoId);
+        if (currentVideoPosition == -1) {
+            currentVideoPosition = 0;
+        }
         group.getMusicList().setSelectedItem(currentVideoPosition);
         group.getMusicList().notifyDataSetChanged();
     }
@@ -308,6 +317,10 @@ public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitia
 
     public YouTubePlayer getYouTubePlayer() {
         return m_youTubePlayer;
+    }
+
+    public boolean isStopped() {
+        return stopped;
     }
 
     private class SearchVideo extends AsyncTask<Void, Void, SearchResultObject> {

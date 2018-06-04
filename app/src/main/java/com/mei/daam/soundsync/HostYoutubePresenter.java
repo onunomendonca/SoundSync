@@ -1,36 +1,40 @@
 package com.mei.daam.soundsync;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
-
-/**
- * Created by D01 on 25/05/2018.
- */
 
 public class HostYoutubePresenter {
     private final HostYoutubeActivity activity;
     private final ListView listView;
     private final CustomAdapter listAdapter;
     private final Button addButton;
+    private ImageButton imageButton;
+    private String groupName;
 
-    public HostYoutubePresenter(HostYoutubeActivity activity, ListView listView, CustomAdapter listAdapter, Button addButton) {
+    public HostYoutubePresenter(HostYoutubeActivity activity, ListView listView, CustomAdapter listAdapter,
+                                Button addButton, ImageButton imageButton, String groupName) {
 
         this.activity = activity;
         this.listView = listView;
         this.listAdapter = listAdapter;
         this.addButton = addButton;
+        this.imageButton = imageButton;
+        this.groupName = groupName;
     }
 
     public void present() {
         handleCreate();
         handleListViewClick();
         handleAddButtonClick();
+        addPeopleToGroupListener();
         resultFromMusicSearch();
         resultFromSearchResult();
     }
@@ -102,7 +106,23 @@ public class HostYoutubePresenter {
         } else {
             if (activity.getYouTubePlayer() == null) {
                 activity.initializeYoutube();
+            } else {
+                if (activity.isStopped()) {
+                    activity.loadVideo(activity.getSearchResultObject().getVideoId());
+                }
             }
         }
+    }
+
+    private void addPeopleToGroupListener() {
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(activity, Pop.class);
+                intent.putExtra(MainActivity.GROUP_NAME, groupName);
+                activity.startActivity(intent);
+            }
+        });
+
     }
 }
