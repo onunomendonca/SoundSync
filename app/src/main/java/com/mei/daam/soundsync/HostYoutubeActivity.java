@@ -44,7 +44,7 @@ import static com.google.android.youtube.player.YouTubePlayer.Provider;
 import static io.reactivex.subjects.PublishSubject.create;
 
 public class HostYoutubeActivity extends YouTubeBaseActivity implements OnInitializedListener {
-    private final static String YOUTUBEKEY = "AIzaSyAxl6aQsAQKTXV8LtMxiVmCwjYxGofeUEU";
+    private final static String YOUTUBEKEY = "AIzaSyBAOqyy7QPh2i3TgbrpZP4w0RW5sTdxjd8";
     private final static String SEARCHTYPE = "video";
     private final static String DEFAULTERRORMESSAGE = "Error initializing youtube";
     private final static String ISFIRSTVIDEOKEY = "FIRSTVIDEO";
